@@ -2,18 +2,18 @@ package com.example.thedeveloperlife.dto;
 
 import com.example.thedeveloperlife.entity.Post;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 public class PostResponseDto {
     private Long id;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private Long category_id;
+    private Long user_id;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
@@ -21,5 +21,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
+        this.category_id = post.getCategory().getId();
+        this.user_id = post.getUser().getId();
     }
 }

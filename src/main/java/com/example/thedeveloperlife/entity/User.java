@@ -38,6 +38,4 @@ public class User {
         this.email = signupRequestDto.getEmail();
         this.introduce = signupRequestDto.getIntroduce();
     }
-
-
 }

@@ -14,7 +14,7 @@ public class ApiResponseDto {
     public ApiResponseDto(int status, String message) {
         this.status = status;
         this.message = message;
-        //this.data = null;
+        this.data = null;
     }
 
     public ApiResponseDto(int status,String message, Object data) {
