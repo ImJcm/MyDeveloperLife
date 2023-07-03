@@ -7,13 +7,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.Locale;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "thedeveloperlife")
+@Table(name = "post")
 @NoArgsConstructor
 public class Post extends Timestamped {
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,8 +34,10 @@ public class Post extends Timestamped {
     @Column(name = "contents", nullable = false)
     private String content;
 
-    public Post(PostRequestDto requestDto) {
+    public Post(PostRequestDto requestDto, User user, Category category) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
+        this.user = user;
+        this.category = category;
     }
 }

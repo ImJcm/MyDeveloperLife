@@ -2,7 +2,9 @@ package com.example.mydeveloperlife.controller;
 
 import com.example.mydeveloperlife.dto.PostRequestDto;
 import com.example.mydeveloperlife.dto.PostResponseDto;
+import com.example.mydeveloperlife.security.UserDetailsImpl;
 import com.example.mydeveloperlife.service.PostService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDatailsImpl userDatails) {
+    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.createPost(requestDto, userDetails.getUser());
     }
 

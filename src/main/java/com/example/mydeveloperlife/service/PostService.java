@@ -2,25 +2,32 @@ package com.example.mydeveloperlife.service;
 
 import com.example.mydeveloperlife.dto.PostRequestDto;
 import com.example.mydeveloperlife.dto.PostResponseDto;
+import com.example.mydeveloperlife.entity.Category;
 import com.example.mydeveloperlife.entity.Post;
+import com.example.mydeveloperlife.entity.User;
+import com.example.mydeveloperlife.repository.CategoryRepository;
 import com.example.mydeveloperlife.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository) {
         this.postRepository = postRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public PostResponseDto createPost(PostRequestDto requestDto, User user) {
-        // RequestDto -> Entity
-        Post post = new Post(requestDto);
 
-        post.setUser(user);
+        Optional<Category> category = categoryRepository.findById(requestDto.getCategory_id());
+
+        // RequestDto -> Entity
+        Post post = new Post(requestDto, user, category.get());
 
         // DB 저장
         Post savePost = postRepository.save(post);
