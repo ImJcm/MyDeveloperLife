@@ -1,8 +1,34 @@
 package com.example.mydeveloperlife.controller;
 
-import org.springframework.stereotype.Controller;
+import com.example.mydeveloperlife.dto.PostRequestDto;
+import com.example.mydeveloperlife.dto.PostResponseDto;
+import com.example.mydeveloperlife.service.PostService;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
 public class PostController {
 
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
+
+    @PostMapping("/post")
+    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDatailsImpl userDatails) {
+        return postService.createPost(requestDto, userDetails.getUser());
+    }
+
+    @GetMapping("/posts")
+    public List<PostResponseDto> getPosts() {
+        return postService.getPosts();
+    }
+
+    @GetMapping("/post/{id}")
+    public PostResponseDto lookupPost(@PathVariable Long id) {
+        return postService.lookupPost(id);
+    }
 }
