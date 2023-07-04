@@ -1,8 +1,7 @@
 package com.example.thedeveloperlife.controller;
 
-import com.example.thedeveloperlife.dto.ApiResponseDto;
-import com.example.thedeveloperlife.dto.LoginRequestDto;
-import com.example.thedeveloperlife.dto.SignupRequestDto;
+import com.example.thedeveloperlife.dto.*;
+import com.example.thedeveloperlife.security.UserDetailsImpl;
 import com.example.thedeveloperlife.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -10,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +62,17 @@ public class UserController {
     public ResponseEntity<ApiResponseDto> logout() {
         // 프론트엔드 단을 구성한다면 html 파일명을 반환해야 합니다.
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"로그아웃 성공"));
+    }
+
+    @GetMapping("/{id}")
+    public UserResponseDto lookupUser(@PathVariable Long id) {
+        return userService.lookupUser(id);
+    }
+
+    // 프로필 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponseDto> update(@PathVariable Long id, @RequestBody UpdateRequestDto updateRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.update(id, updateRequestDto, userDetails.getUser());
     }
 
 }

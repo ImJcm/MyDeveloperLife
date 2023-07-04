@@ -1,6 +1,7 @@
 package com.example.thedeveloperlife.entity;
 
 import com.example.thedeveloperlife.dto.SignupRequestDto;
+import com.example.thedeveloperlife.dto.UpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,5 +38,12 @@ public class User {
         this.password = password;
         this.email = signupRequestDto.getEmail();
         this.introduce = signupRequestDto.getIntroduce();
+    }
+
+    public void update(UpdateRequestDto updateRequestDto) {
+        this.nickname = updateRequestDto.getNickname();
+        this.password = updateRequestDto.getPassword();
+        this.email = updateRequestDto.getEmail();
+        this.introduce = updateRequestDto.getIntroduce();
     }
 }

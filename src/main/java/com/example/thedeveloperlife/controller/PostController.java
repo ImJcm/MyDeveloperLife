@@ -3,8 +3,10 @@ package com.example.thedeveloperlife.controller;
 import com.example.thedeveloperlife.dto.ApiResponseDto;
 import com.example.thedeveloperlife.dto.PostRequestDto;
 import com.example.thedeveloperlife.dto.PostResponseDto;
+import com.example.thedeveloperlife.dto.UserResponseDto;
 import com.example.thedeveloperlife.security.UserDetailsImpl;
 import com.example.thedeveloperlife.service.PostService;
+import com.example.thedeveloperlife.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final UserService userService;
 
     @PostMapping("/post")
     public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
