@@ -1,9 +1,12 @@
 package com.example.thedeveloperlife.dto;
 
+import com.example.thedeveloperlife.entity.Comment;
 import com.example.thedeveloperlife.entity.Post;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class PostResponseDto {
@@ -14,6 +17,7 @@ public class PostResponseDto {
     private LocalDateTime modifiedAt;
     private Long category_id;
     private Long user_id;
+    private List<CommentResponseDto> commentResponseDtoList;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
@@ -22,6 +26,13 @@ public class PostResponseDto {
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
         this.category_id = post.getCategory().getId();
+
         this.user_id = post.getUser().getId();
-    }
+        if(post.getCommentList().size()>0) {
+            this.commentResponseDtoList = new ArrayList<>();
+            for (Comment comment : post.getCommentList()) {
+                this.commentResponseDtoList.add(new CommentResponseDto(comment));
+            }
+        }// end of the if()
+    }// end of constructor method()
 }
