@@ -36,23 +36,23 @@ public class UserService {
         Optional<User> checkUser = userRepository.findByName(inputName);
 
         // 중복 회원이 있을 경우
-        if(checkUser.isPresent()) {
+        if (checkUser.isPresent()) {
             // 서버 측에 로그를 찍는 역할을 합니다.
             log.error(inputName + "와 중복된 사용자가 존재합니다.");
 
             // 아래는 클라이언트 쪽에 400 에러 코드와 에러 메시지를 반환하는 코드입니다.
-            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(),"회원 가입 실패"));
+            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(), "회원 가입 실패"));
         }
 
         // 중복 회원이 없을 경우
-        User user = new User(signupRequestDto,password);
+        User user = new User(signupRequestDto, password);
         userRepository.save(user);
 
         // 서버 측에 로그를 찍는 역할을 합니다.
         log.info(inputName + "님이 회원 가입에 성공하였습니다");
 
         // 아래는 클라이언트 쪽에 201 상태 코드와 성공 메시지를 반환하는 코드입니다.
-        return ResponseEntity.status(201).body(new ApiResponseDto(HttpStatus.CREATED.value(),"회원 가입 성공"));
+        return ResponseEntity.status(201).body(new ApiResponseDto(HttpStatus.CREATED.value(), "회원 가입 성공"));
     }
 
 
@@ -66,22 +66,22 @@ public class UserService {
         Optional<User> checkUser = userRepository.findByName(inputName);
 
         // DB에 없는 사용자인 경우 혹은 비밀번호가 일치하지 않을 경우
-        if(!checkUser.isPresent() || !passwordEncoder.matches(password,checkUser.get().getPassword())) {
+        if (!checkUser.isPresent() || !passwordEncoder.matches(password, checkUser.get().getPassword())) {
             // 서버 측에 로그를 찍는 역할을 합니다.
             log.error("로그인 정보가 일치하지 않습니다.");
 
             // 아래는 클라이언트 쪽에 400 에러 코드와 에러 메시지를 반환하는 코드입니다.
-            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(),"로그인 실패"));
+            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(), "로그인 실패"));
         }
 
         // JWT 생성 및 쿠키에 저장 후 Response 객체에 추가..
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER,jwtUtil.createToken(requestDto.getName()));
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(requestDto.getName()));
 
         // 서버 측에 로그를 찍는 역할을 합니다.
         log.info(inputName + "님이 로그인에 성공하였습니다");
 
         // 아래는 클라이언트 쪽에 201 상태 코드와 성공 메시지를 반환하는 코드입니다.
-        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"로그인 성공"));
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "로그인 성공"));
     }
 
     public UserResponseDto lookupUser(Long id) {
@@ -91,17 +91,22 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<ApiResponseDto> update(Long id, UpdateRequestDto updateRequestDto, User user) {
-        Optional<User> updateduser = userRepository.findById(id);
+        Optional<User> usertobeupdated = userRepository.findById(id);
+// updateduser 이름 변경
 
         if (!updateRequestDto.getPassword().equals(updateRequestDto.getCheckPassword())) {
             log.error("비밀번호가 일치하지 않습니다");
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(), "프로필 수정 실패"));
         }
 
-        updateduser.get().update(updateRequestDto);
+        String password = passwordEncoder.encode(updateRequestDto.getPassword());
+        usertobeupdated.get().update(updateRequestDto, password);
 
-        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "프로필 수정 성공",updateduser));
+        ApiResponseDto result = new ApiResponseDto(HttpStatus.OK.value(), "프로필 수정 성공", usertobeupdated);
+
+        return ResponseEntity.status(200).body(result);
     }
+//    (new ApiResponseDto(HttpStatus.OK.value(), "프로필 수정 성공", updateduser))
 
     private User findUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시물은 존재하지 않습니다."));
