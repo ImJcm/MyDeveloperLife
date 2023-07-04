@@ -7,6 +7,7 @@ import com.example.thedeveloperlife.entity.Category;
 import com.example.thedeveloperlife.entity.Post;
 import com.example.thedeveloperlife.entity.User;
 import com.example.thedeveloperlife.repository.CategoryRepository;
+import com.example.thedeveloperlife.repository.CommentRepository;
 import com.example.thedeveloperlife.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
+    private final CommentRepository commentRepository;
 
     public PostResponseDto createPost(PostRequestDto requestDto, User user) {
 
@@ -42,9 +45,12 @@ public class PostService {
         return postResponseDto;
     }
 
+
+    // 전체 게시글 조회
     public List<PostResponseDto> getPosts() {
         return postRepository.findAllByOrderByModifiedAtDesc().stream().map(PostResponseDto::new).toList();
     }
+
 
     public PostResponseDto lookupPost(Long id) {
         Post post = findPost(id);

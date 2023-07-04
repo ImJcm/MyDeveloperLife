@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Slf4j
+@Slf4j(topic = "User Service")
 @Service
 @RequiredArgsConstructor
 public class UserService {

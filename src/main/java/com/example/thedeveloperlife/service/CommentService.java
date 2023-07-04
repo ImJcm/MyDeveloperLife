@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Slf4j
+@Slf4j(topic = "댓글 Service")
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -72,6 +72,7 @@ public class CommentService {
     public ResponseEntity<ApiResponseDto> deleteComment(Long id, User user) {
         // 해당 댓글 존재 여부 판단
         Optional<Comment> checkComment = commentRepository.findById(id);
+        // 해당 댓글이 없을 경우
         if(!checkComment.isPresent()){
             log.error("해당 댓글이 없습니다.");
             return null;

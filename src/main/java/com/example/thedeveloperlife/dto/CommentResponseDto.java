@@ -4,6 +4,8 @@ import com.example.thedeveloperlife.entity.Comment;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class CommentResponseDto {
@@ -13,6 +15,7 @@ public class CommentResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String userNickname;
+
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
