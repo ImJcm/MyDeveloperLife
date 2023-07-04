@@ -40,9 +40,9 @@ public class User {
         this.introduce = signupRequestDto.getIntroduce();
     }
 
-    public void update(UpdateRequestDto updateRequestDto) {
+    public void update(UpdateRequestDto updateRequestDto, String password) {
         this.nickname = updateRequestDto.getNickname();
-        this.password = updateRequestDto.getPassword();
+        this.password = password;
         this.email = updateRequestDto.getEmail();
         this.introduce = updateRequestDto.getIntroduce();
     }
