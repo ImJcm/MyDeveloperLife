@@ -64,6 +64,7 @@ public class UserController {
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"로그아웃 성공"));
     }
 
+    // 프로필 조회
     @GetMapping("/{id}")
     public UserResponseDto lookupUser(@PathVariable Long id) {
         return userService.lookupUser(id);
