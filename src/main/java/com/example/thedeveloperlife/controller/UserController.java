@@ -72,8 +72,8 @@ public class UserController {
 
     // 프로필 수정
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponseDto> update(@PathVariable Long id, @RequestBody UpdateRequestDto updateRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return userService.update(id, updateRequestDto, userDetails.getUser());
+    public ResponseEntity<ApiResponseDto> updateUser(@PathVariable Long id, @RequestBody UpdateRequestDto updateRequestDto) {
+        return userService.updateUser(id, updateRequestDto);
     }
 
 }

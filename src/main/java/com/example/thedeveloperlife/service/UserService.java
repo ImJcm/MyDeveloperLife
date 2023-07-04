@@ -84,31 +84,37 @@ public class UserService {
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "로그인 성공"));
     }
 
-    public UserResponseDto lookupUser(Long id) {
-        User user = findUser(id);
-        return new UserResponseDto(user);
-    }
-
     @Transactional
-    public ResponseEntity<ApiResponseDto> update(Long id, UpdateRequestDto updateRequestDto, User user) {
-        Optional<User> usertobeupdated = userRepository.findById(id);
-// updateduser 이름 변경
+    public ResponseEntity<ApiResponseDto> updateUser(Long id, UpdateRequestDto requestDto) {
+        // DB 에서 해당 유저 가져오기
+        Optional<User> inputUpdateUser = userRepository.findById(id);
 
-        if (!updateRequestDto.getPassword().equals(updateRequestDto.getCheckPassword())) {
+        // 비밀번호와 확인 비밀번호 일치 여부 판단
+        if (!requestDto.getPassword().equals(requestDto.getCheckPassword())) {
             log.error("비밀번호가 일치하지 않습니다");
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(), "프로필 수정 실패"));
         }
 
-        String password = passwordEncoder.encode(updateRequestDto.getPassword());
-        usertobeupdated.get().update(updateRequestDto, password);
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        User user = inputUpdateUser.get();
+        user.update(requestDto, password);
 
-        ApiResponseDto result = new ApiResponseDto(HttpStatus.OK.value(), "프로필 수정 성공", usertobeupdated);
+        // User -> UserResponseDto
+        UserResponseDto userResponseDto = new UserResponseDto(user);
+
+        ApiResponseDto result = new ApiResponseDto(HttpStatus.OK.value(), "프로필 수정 성공", userResponseDto);
 
         return ResponseEntity.status(200).body(result);
     }
 //    (new ApiResponseDto(HttpStatus.OK.value(), "프로필 수정 성공", updateduser))
 
+    public UserResponseDto lookupUser(Long id) {
+        User user = findUser(id);
+        return new UserResponseDto(user);
+    }
+
     private User findUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시물은 존재하지 않습니다."));
     }
+
 }
