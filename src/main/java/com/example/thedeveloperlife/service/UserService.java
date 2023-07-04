@@ -1,8 +1,7 @@
 package com.example.thedeveloperlife.service;
 
-import com.example.thedeveloperlife.dto.ApiResponseDto;
-import com.example.thedeveloperlife.dto.LoginRequestDto;
-import com.example.thedeveloperlife.dto.SignupRequestDto;
+import com.example.thedeveloperlife.dto.*;
+import com.example.thedeveloperlife.entity.Post;
 import com.example.thedeveloperlife.entity.User;
 import com.example.thedeveloperlife.jwt.JwtUtil;
 import com.example.thedeveloperlife.repository.UserRepository;
@@ -13,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -83,4 +84,26 @@ public class UserService {
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"로그인 성공"));
     }
 
+    public UserResponseDto lookupUser(Long id) {
+        User user = findUser(id);
+        return new UserResponseDto(user);
+    }
+
+    @Transactional
+    public ResponseEntity<ApiResponseDto> update(Long id, UpdateRequestDto updateRequestDto, User user) {
+        Optional<User> updateduser = userRepository.findById(id);
+
+        if (!updateRequestDto.getPassword().equals(updateRequestDto.getCheckPassword())) {
+            log.error("비밀번호가 일치하지 않습니다");
+            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(), "프로필 수정 실패"));
+        }
+
+        updateduser.get().update(updateRequestDto);
+
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "프로필 수정 성공",updateduser));
+    }
+
+    private User findUser(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시물은 존재하지 않습니다."));
+    }
 }
