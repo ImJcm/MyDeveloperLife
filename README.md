@@ -18,5 +18,6 @@
 ## API 설계 ##
 ![api1](https://user-images.githubusercontent.com/51190093/250495766-bd9e3277-7a23-489f-9549-daf9ae48f902.PNG)
 ![api2](https://user-images.githubusercontent.com/51190093/250495781-37602e50-9dea-4c64-a8b8-a8ee9bd4f13c.PNG)
-![api3](https://user-images.githubusercontent.com/51190093/250495794-61bb1e98-b36a-4519-8900-2210ca2bf16e.PNG)
+![api3](https://user-images.githubusercontent.com/51190093/250753395-599b854a-7116-438a-8353-f46c6ef9cc8f.PNG)
+![api4](https://user-images.githubusercontent.com/51190093/250495794-61bb1e98-b36a-4519-8900-2210ca2bf16e.PNG)
 
