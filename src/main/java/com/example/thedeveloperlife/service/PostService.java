@@ -79,8 +79,7 @@ public class PostService {
 
         post.get().update(postRequestDto, category.get());
 
-        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "게시글 수정 성공",post.get()));
-        //return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "게시글 수정 성공"));
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "게시글 수정 성공",new PostResponseDto(post.get())));
     }
 
 
