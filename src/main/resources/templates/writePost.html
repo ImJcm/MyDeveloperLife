@@ -115,14 +115,18 @@
 
         function writePost() {
             const form = document.querySelector("#writePostForm");
+            const title = form.querySelector("#title").value;
+            const content = form.querySelector("#content").value;
+            const category_id = form.querySelector("#category").value;
+
             const data = {
-                title : form.querySelector("#title"),
-                content : form.querySelector("#content"),
-                category_id : form.querySelector("#category")
+                title : title,
+                content : content,
+                category_id : category_id
             }
 
             $.ajax({
-                type:"POST",
+                type:'POST',
                 url:'/api/post',
                 contentType: "application/json",
                 data: JSON.stringify(data),
