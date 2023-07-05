@@ -3,11 +3,11 @@ package com.example.thedeveloperlife.controller;
 import com.example.thedeveloperlife.dto.ApiResponseDto;
 import com.example.thedeveloperlife.dto.PostRequestDto;
 import com.example.thedeveloperlife.dto.PostResponseDto;
-import com.example.thedeveloperlife.dto.UserResponseDto;
 import com.example.thedeveloperlife.security.UserDetailsImpl;
 import com.example.thedeveloperlife.service.PostService;
 import com.example.thedeveloperlife.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -35,6 +36,23 @@ public class PostController {
         return "writePost";
     }
 
+    @GetMapping("/post/modify/{id}")
+    public String modifyPostView(
+            @PathVariable Long id,
+            Model model,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        PostResponseDto postResponseDto = postService.lookupPost(id);
+        if(!userService.lookupUser(postResponseDto.getUser_id()).getName().equals(userDetails.getUsername())) {
+            //* 게시글 작성자가 아닐 시, id에 해당하는 게시글 페이지로 이동 *//*
+            return "redirect:/api/post-page/"+ id;  // 상세페이지로 이동 - api 적용 완료
+        }
+        model.addAttribute("info_username",userDetails.getUser().getName());
+        model.addAttribute("info_post",postResponseDto);
+        return "modifyPost";
+    }
+
+
     @GetMapping("/posts")
     @ResponseBody
     public List<PostResponseDto> getPosts() {
@@ -44,6 +62,16 @@ public class PostController {
     @GetMapping("/posts/{category_id}")
     public ResponseEntity<ApiResponseDto> getCategoryPosts(@PathVariable Long category_id) {
         return postService.getCategoryPosts(category_id);
+    }
+
+    @GetMapping("/post-page/{id}")
+    public String getPost(@PathVariable Long id,
+                          Model model,
+                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        PostResponseDto responseDto = postService.lookupPost(id);
+        model.addAttribute("user",userDetails.getUser().getName());
+        model.addAttribute("post", responseDto);
+        return "postDetail"; // postDetail.html view
     }
 
     @GetMapping("/post/{id}")

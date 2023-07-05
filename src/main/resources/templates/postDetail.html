@@ -14,17 +14,129 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <meta charset="UTF-8">
     <title>게시글 상세 페이지</title>
+
+    <style>
+        .title {
+            text-align: center;
+            margin-top: 30px;
+            background-color: white;
+        }
+        .leftBtn {
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-right: 20px;
+            text-align: right;
+            display: inline-block;
+        }
+        .rightBtn{
+            float: right;
+            text-align: right;
+            margin-left: 10px;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        .all-body {
+            text-align: center;
+        }
+
+        .comment-textarea{
+            width: 500px;
+            text-align: left;
+        }
+    </style>
+
+    <script>
+        let postId = [[${post.id}]]
+
+        $(document).ready(function () {
+
+        });
+
+        function updateRequest() {
+            $.ajax({
+                type:'GET',
+                url:'/api/post/modify/'+ postId,
+                success: function(response) {
+                    window.location.href = "/api/post";
+                }, error: function(req,status,error) {
+                    alert("게시글 수정 실패");
+                }
+            })
+        }
+
+        function deleteRequest() {
+            console.log(postId)
+            $.ajax({
+                type:'DELETE',
+                url:'/api/post/'+ postId,
+                success: function(response) {
+                    alert("게시글 삭제 성공");
+                    window.location.href = "/";
+                }, error: function(req,status,error) {
+                    alert("게시글 삭제 실패");
+                }
+            })
+        }
+
+    </script>
+
 </head>
 <body>
+
+<div class="leftBtn">
+    <input type="button" class="btn btn-dark" value="Back" onclick="history.back();"/>
+</div>
+
+<div class="rightBtn">
+    <span class="welcome-msg" th:text="${user}"></span> 님, 환영합니다.<br/>
+    <button onClick="location.href='/api/user/login-page'"  class="btn btn-dark"> Log In </button>
+    <button onClick="location.href='/api/user/signup'" class="btn btn-dark"> Sign Up </button>
+</div>
+<br/><br/>
+
 <div class="title">
     <h1> The Developer Life</h1>
 </div>
+<br/>
 
-<div class="postBody">
-<h2>게시글 제목</h2>
+<div class="all-body">
 
+
+    <div class="post-details">
+        <h3 class="post-title" th:text="${post.title}"></h3>
+        <br/>
+        <hr>
+        <div class="post-info">
+            <span class="author">작성자</span> : <span th:text="${post.userName}"> </span>
+            <span class="date">게시일</span> : <span th:text="${post.createdAt}"> </span>
+            <br/>
+            <div class="rightBtn">
+                <button type="button" class="btn btn-dark" th:onclick="updateRequest()">수정</button>
+                <button type="button" class="btn btn-dark" th:onclick="deleteRequest()">삭제</button>
+                <button type="button" class="btn btn-dark" onclick="history.back();">목록</button>
+                <br/>
+            </div>
+        </div>
+        <br/>
+        <div class="content">
+            <span class="author">내용 </span> <br/>
+            <textarea cols="50" rows="10" th:text="${post.content}"> </textarea>
+        </div>
+
+        <hr>
+        <div class="comments">
+            <h3>댓글</h3>
+            <div class="comment-list">
+                <!-- 댓글 목록이 여기에 동적으로 추가될 예정 -->
+            </div>
+            <div class="new-comment">
+                <textarea class="comment-textarea" placeholder="댓글을 입력하세요"></textarea>
+                <button class="comment-submit-btn">등록</button>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 </body>
 </html>

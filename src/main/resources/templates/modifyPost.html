@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Modify Post Page</title>
+  <title>Create Post Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
           crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
   <style>
     body {
       width : auto;
@@ -26,27 +27,22 @@
       font-weight: bold;
     }
   </style>
-  <script>
+  <script th:inline="javascript">
     $(document).ready(function () {
-      //JWT Token
-      let auth = getToken();
-      showPage(auth);
+      let username = [[${info_username}]]
+      let post = [[${info_post}]]
+      showPage(username, post);
     });
 
-    function showPage(auth) {
+    function showPage(username, post) {
       $('#body').empty();
 
-      //Username Setting
-      let username = getUsernameFromToken(auth);
+      setHtml(username, post)
 
-      //form Setting
-      setHtml(username);
-
-      //Category Setting
-      setCategory();
+      setCategory(post['category_id']);
     }
 
-    function setCategory() {
+    function setCategory(category_id) {
       $.ajax({
         type: 'GET',
         url: '/api/categories',
@@ -56,25 +52,29 @@
           let data = response['data'];
           for(let i=0;i<data.length;i++) {
             let category = data[i]
-            let category_id = category['id'];
+            //let category_id = category['id'];
             let name = category['name'];
-            form_category.append(`<option value=i+1>${name}</option>`);
+            let option_value = i+1;
+            if(i == category_id-1) {
+              form_category.append(`<option value=${option_value} selected>${name}</option>`);
+            } else {
+              form_category.append(`<option value=${option_value}>${name}</option>`);
+            }
           }
         }
       })
     }
 
-    function setHtml(username) {
-      let html = `<form>
-      <div class="input-group mb-3">
+    function setHtml(username, post) {
+      let html = `<div class="input-group mb-3">
         <span class="input-group-text" id="inputGroup-title">게시글 제목</span>
-        <input type="text" id="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing">
+        <input name="title" type="text" id="title" class="form-control" value="${post['title']}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing">
       </div>
       <div class="input-group mb-3 g-2">
         <span class="input-group-text" id="inputGroup-username">작성자</span>
-        <input type="text" id="username" class="form-control me-4" placeholder="${username}" aria-label="Sizing example username" aria-describedby="username-sizing" readonly>
+        <input name="username" type="text" id="username" class="form-control me-4" value="${username}" aria-label="Sizing example username" aria-describedby="username-sizing" readonly>
         <span class="input-group-text" for="category">카테고리</span>
-        <select class="form-select" id="category">
+        <select name="category" class="form-select" id="category">
           <!--<option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>-->
@@ -82,72 +82,73 @@
       </div>
       <div class="input-group-lg">
         <span class="input-group-text">게시글 내용</span>
-        <textarea class="form-control" id="content" aria-label="With textarea" rows="15"></textarea>
+        <textarea name="content" class="form-control" id="content" aria-label="With textarea" rows="15">${post['content']}</textarea>
       </div>
       <div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="editPost(${post['id']})">Edit</button>
         <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="history.back()">Cancel</button>
-        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="modifyPost()">Edit</button>
-      </div>
-    </form>`
+      </div>`
       $('#body').append(html);
     }
 
-    function modifyPost() {
+    function editPost(id) {
+      const title = document.querySelector("#title").value;
+      const content = document.querySelector("#content").value;
+      const category_id = document.querySelector("#category").value;
 
-    }
-
-    function getToken() {
-      let auth = Cookies.get('Authorization');
-
-      if(auth === undefined) {
-        return '';
+      const data = {
+        title : title,
+        content : content,
+        category_id : category_id
       }
 
-      return auth;
-    }
-
-    function getUsernameFromToken(auth) {
-      let token = auth.substring(7);
-      let base64Payload = token.split('.')[1];
-      let payload = atob(base64Payload);
-      let result = JSON.parse(payload.toString())
-
-      return result['sub']
+      $.ajax({
+        type:'PUT',
+        url:`/api/post/${id}`,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function(response) {
+          alert("게시글 수정 성공");
+          window.location.reload();
+        }, error: function(req,status,error) {
+          alert("게시글 수정 실패");
+        }
+      })
     }
   </script>
 </head>
 <body>
-  <div class="header mb-5">
-    <h1>The Developer Life</h1>
-    <p>게시글 등록 페이지</p>
-  </div>
-  <div class="body" id="body">
-    <form>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="inputGroup-title">게시글 제목</span>
-        <input type="text" id="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing">
-      </div>
-      <div class="input-group mb-3 g-2">
-        <span class="input-group-text" id="inputGroup-username">작성자</span>
-        <input type="text" id="username" class="form-control me-4" placeholder="username" aria-label="Sizing example username" aria-describedby="username-sizing" readonly>
-        <span class="input-group-text" for="category">카테고리</span>
-        <select class="form-select" id="category">
-          <option selected>Choose Category</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-      <div class="input-group-lg">
-        <span class="input-group-text">게시글 내용</span>
-        <textarea class="form-control" id="content" aria-label="With textarea" rows="15"></textarea>
-      </div>
-      <div class="d-flex justify-content-center mt-3">
-        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" id="cancel">Cancel</button>
-        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" id="edit">Edit</button>
-      </div>
-    </form>
-  </div>
-  <div class="footer"></div>
+<div class="header mb-5">
+  <h1>The Developer Life</h1>
+  <p>게시글 수정 페이지</p>
+</div>
+<div class="body" id="body">
+  <form>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="inputGroup-title">제목</span>
+      <input type="text" id="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing">
+    </div>
+    <div class="input-group mb-3 g-2">
+      <span class="input-group-text" id="inputGroup-username">작성자</span>
+      <input type="text" id="username" class="form-control me-4" aria-label="Sizing example username" aria-describedby="username-sizing" readonly>
+      <span class="input-group-text" for="category">카테고리</span>
+      <select class="form-select" id="category">
+        <option selected>Choose Category</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </div>
+    <div class="input-group-lg">
+      <span class="input-group-text">게시글 내용</span>
+      <textarea class="form-control" id="content" aria-label="With textarea" rows="15"></textarea>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <button type="submit" class="btn btn-dark btn-lg me-5 w-25" id="cancel">Cancel</button>
+      <button type="submit" class="btn btn-dark btn-lg me-5 w-25" id="edit">Upload</button>
+    </div>
+  </form>
+</div>
+<div class="footer"></div>
 </body>
 </html>
