@@ -28,7 +28,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final UserDetailsServiceImpl userDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         // request header 에서 토큰을 가져옵니다.
         String tokenValue = jwtUtil.getJwtFromHeader(request);
 
