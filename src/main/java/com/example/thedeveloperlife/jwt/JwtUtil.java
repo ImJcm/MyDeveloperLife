@@ -88,10 +88,10 @@ public class JwtUtil {
 //        }
 //        return null;
 
-        //String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        //System.out.println(bearerToken);
-        //System.out.println(StringUtils.hasText(bearerToken));
-        //System.out.println(bearerToken.startsWith(BEARER_PREFIX));
+//        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+//        System.out.println(bearerToken);
+//        System.out.println(StringUtils.hasText(bearerToken));
+//        System.out.println(bearerToken.startsWith(BEARER_PREFIX));
 //        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
 //            return bearerToken.substring(7);
 //        }
