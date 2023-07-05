@@ -106,8 +106,8 @@
         <textarea name="content" class="form-control" id="content" aria-label="With textarea" rows="15"></textarea>
       </div>
       <div class="d-flex justify-content-center mt-3">
-        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="history.back()">Cancel</button>
         <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="writePost()">Upload</button>
+        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="history.back()">Cancel</button>
       </div>
     </form>`
             $('#body').append(html);
@@ -121,13 +121,18 @@
                 category_id : form.querySelector("#category")
             }
 
-            /*$.ajax({
+            $.ajax({
                 type:"POST",
                 url:'/api/post',
+                contentType: "application/json",
+                data: JSON.stringify(data),
                 success: function(response) {
-
+                    alert("게시글 등록 성공");
+                    window.location.href = "/";
+                }, error: function(req,status,error) {
+                    alert("게시글 등록 실패");
                 }
-            })*/
+            })
         }
     </script>
 </head>
