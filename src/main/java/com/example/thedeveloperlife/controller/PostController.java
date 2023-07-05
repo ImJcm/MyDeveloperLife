@@ -11,29 +11,39 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PostController {
-
     private final PostService postService;
     private final UserService userService;
 
     @PostMapping("/post")
-    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.createPost(requestDto, userDetails.getUser());
+    //public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String createPost(@RequestBody PostRequestDto requestDto,Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        //return postService.createPost(requestDto, userDetails.getUser());
+        model.addAttribute("info", postService.createPost(requestDto, userDetails.getUser()));
+        return "createPost";
     }
 
     @GetMapping("/posts")
+    @ResponseBody
     public List<PostResponseDto> getPosts() {
         return postService.getPosts();
     }
 
+    @GetMapping("/posts/{category_id}")
+    public ResponseEntity<ApiResponseDto> getCategoryPosts(@PathVariable Long category_id) {
+        return postService.getCategoryPosts(category_id);
+    }
+
     @GetMapping("/post/{id}")
+    @ResponseBody
     public PostResponseDto lookupPost(@PathVariable Long id) {
         return postService.lookupPost(id);
     }
@@ -44,6 +54,7 @@ public class PostController {
     }
 
     @DeleteMapping("/post/{id}")
+    @ResponseBody
     public ResponseEntity<ApiResponseDto> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.deletePost(id, userDetails.getUser());
     }

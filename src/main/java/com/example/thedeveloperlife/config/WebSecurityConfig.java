@@ -68,7 +68,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
                         .requestMatchers("/api/user/**").permitAll() // 로그인, 회원가입 누구나 가능.
                         .requestMatchers("/api/categories").permitAll() //전체 카테고리 조회는 누구나 허용
-                        .requestMatchers("/api/posts").permitAll()  //전체 게시글 조회는 누구나 허용
+                        .requestMatchers("/api/posts/**").permitAll()  //전체 게시글 조회는 누구나 허용
                         .requestMatchers("/api/post/{id}").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
 //                        .requestMatchers("/api/posts/**").permitAll() // '/api/posts/'로 시작하는 요청 모두 접근 허가 (전체,선택 게시글 조회)
