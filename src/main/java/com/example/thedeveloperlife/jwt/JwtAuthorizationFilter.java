@@ -35,6 +35,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         //  if ( StringUtils.hasText(tokenValue) && !req.getMethod().equals("GET") ) { // 토큰이 있고, GET 메서드가 아닐 경우
         if (StringUtils.hasText(tokenValue)) { // 토큰이 있고, GET 메서드가 아닐 경우
 
+            tokenValue = jwtUtil.substringToken(tokenValue);
+
             if (!jwtUtil.validateToken(tokenValue)) {
                 resultSetResponse(response,400,"유효하지 않은 토큰입니다.");
                 log.error("유효하지 않은 토큰입니다.");
@@ -42,13 +44,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
 
             Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-            setAuthentication(info.getSubject());
+
+            try {
+                setAuthentication(info.getSubject());
+            }catch (Exception e) {
+                log.error(e.getMessage());
+            }
         }
-        try {
-            filterChain.doFilter(request,response);
-        }catch (FileUploadException e) {
-            log.error(e.getMessage());
-        }
+
+        filterChain.doFilter(request,response);
     }
 
     // 인증 처리 메서드
@@ -58,6 +62,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         context.setAuthentication(authentication);
 
         SecurityContextHolder.setContext(context);
+
         // SecurityContextHolder 안에 SecurityContext 가 있고, SecurityContext 안에 Authentication 이 있다.
         // Authentication 안에 Principle Credentials, Authorities 이렇게 3개가 들어 있다.
     }
@@ -83,6 +88,4 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         writer.write(jsonResult);
         writer.flush();
     }
-
-
 }

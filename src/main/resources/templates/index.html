@@ -12,8 +12,10 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>The Developer Life</title>
+  
     <style>
         .title {
             text-align: center;
@@ -42,7 +44,12 @@
         .category{
             float: left;
             text-justify: auto;
-            margin-left: 50px;
+        }
+        .title_bottom_btn {
+            float:right;
+            margin-top: 10px;
+            margin-right: 50px;
+            text-justify: auto;
         }
     </style>
     <script>
@@ -81,17 +88,17 @@
 </head>
 <body>
 <div class="btn">
-    <button id="login-btn" class="btn-light" onclick="location.href='/api/user/login-page'">Log In</button>
-    <button id="signup-btn" class="btn-dark" onclick="location.href='/api/user/signup'">Sign Up</button>
-    <button id="mypage-btn" class="btn-light" onclick="location.href='/api/user/myPage'">My Page</button>
-    <button id="logout-btn" class="btn-dark" onclick='logout();'>LogOut</button>
-
+    <button onClick="location.href='/api/user/login-page'" style="background-color: white; color: black; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">Log In</button>
+    <button onClick="location.href='/api/user/signup'" style="background-color: black; color: white; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">Sign Up</button>
 </div>
 <div class="title">
     <h1> The Developer Life</h1>
 </div>
 <div class="subtitle">
     <b>예비 개발자 또는 개발자들의 TMI (TIL, 개발 팁, 취미 등) 공유를 위한 커뮤니티</b>
+</div>
+<div class="title_bottom_btn">
+    <button onClick="location.href='/api/post/write'" style="background-color: black; color: white; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">Upload</button>
 </div>
 
 <div class="postBody" id="">
