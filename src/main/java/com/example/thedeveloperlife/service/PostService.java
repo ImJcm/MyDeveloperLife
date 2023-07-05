@@ -96,4 +96,12 @@ public class PostService {
 
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "게시글 삭제 성공"));
     }
+
+    public ResponseEntity<ApiResponseDto> getCategoryPosts(Long category_id) {
+        List<Post> postList = postRepository.findAllByCategory_IdOrderByModifiedAtDesc(category_id);
+
+        List<PostResponseDto> newPostList = postList.stream().map(PostResponseDto::new).toList();
+
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"카테고리별 게시글 조회",newPostList));
+    }
 }
