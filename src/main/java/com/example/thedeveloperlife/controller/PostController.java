@@ -24,17 +24,14 @@ public class PostController {
     private final UserService userService;
 
     @PostMapping("/post")
+    @ResponseBody
     public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
       return postService.createPost(requestDto, userDetails.getUser());
     }
-//    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto) {
-//        return postService.createPost(requestDto, userDetails.getUser());
-//    }
     @GetMapping("/post/write")
-    //public String createPostView(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    public String createPostView(Model model) {
-        //System.out.println(userDetails.getUser() == null ? "null": userDetails.getUser());
-        model.addAttribute("info", "user");
+    public String createPostView(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println(userDetails.getUsername());
+        model.addAttribute("info", userDetails.getUser().getName());
         return "writePost";
     }
 
