@@ -24,11 +24,18 @@ public class PostController {
     private final UserService userService;
 
     @PostMapping("/post")
-    //public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    public String createPost(@RequestBody PostRequestDto requestDto,Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        //return postService.createPost(requestDto, userDetails.getUser());
-        model.addAttribute("info", postService.createPost(requestDto, userDetails.getUser()));
-        return "createPost";
+    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+      return postService.createPost(requestDto, userDetails.getUser());
+    }
+//    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto) {
+//        return postService.createPost(requestDto, userDetails.getUser());
+//    }
+    @GetMapping("/post/write")
+    //public String createPostView(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String createPostView(Model model) {
+        //System.out.println(userDetails.getUser() == null ? "null": userDetails.getUser());
+        model.addAttribute("info", "user");
+        return "writePost";
     }
 
     @GetMapping("/posts")
@@ -58,4 +65,6 @@ public class PostController {
     public ResponseEntity<ApiResponseDto> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.deletePost(id, userDetails.getUser());
     }
+
+
 }
