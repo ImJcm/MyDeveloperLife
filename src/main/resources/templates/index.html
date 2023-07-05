@@ -56,10 +56,8 @@
                 url : '/api/posts',
                 success : function (response) {
                     $('#post-cards').empty();
-                    console.log(response)
                     for(let i = 0; i < response.length; i++) {
                         let post_title = response[i]['title'];
-                        console.log(post_title)
                         setHtml(post_title);
                     }
                 }
@@ -91,6 +89,7 @@
 =======
 <div class="title_bottom_btn">
     <button onClick="location.href='/api/post/write'" style="background-color: black; color: white; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">Upload</button>
+    <button onClick="location.href='/api/post/modify/5'" style="background-color: black; color: white; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">modify</button>
 </div>
 
 <div class="postBody" id="">

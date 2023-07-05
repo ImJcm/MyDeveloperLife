@@ -29,41 +29,16 @@
     </style>
     <script th:inline="javascript">
         $(document).ready(function () {
-            //let auth = getToken();
-            //showPage(auth);
-            let username = [[${info}]]
+            let username = [[${info_username}]]
             showPage(username);
         });
 
         function showPage(username) {
             $('#body').empty();
 
-            //form Setting
-            //let username = getUsernameFromToken(auth)
-            //setHtml(username)
             setHtml(username)
 
-            //Category Setting
             setCategory();
-        }
-
-        function getUsernameFromToken(auth) {
-            let token = auth.substring(7);
-            let base64Payload = token.split('.')[1];
-            let payload = atob(base64Payload);
-            let result = JSON.parse(payload.toString())
-
-            return result['sub']
-        }
-
-        function getToken() {
-            let auth = Cookies.get('Authorization');
-
-            if(auth === undefined) {
-                return '';
-            }
-
-            return auth;
         }
 
         function setCategory() {
@@ -86,30 +61,6 @@
         }
 
         function setHtml(username) {
-            /*let html = `<form id="writePostForm">
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="inputGroup-title">게시글 제목</span>
-        <input name="title" type="text" id="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing">
-      </div>
-      <div class="input-group mb-3 g-2">
-        <span class="input-group-text" id="inputGroup-username">작성자</span>
-        <input name="username" type="text" id="username" class="form-control me-4" value="${username}" aria-label="Sizing example username" aria-describedby="username-sizing" readonly>
-        <span class="input-group-text" for="category">카테고리</span>
-        <select name="category" class="form-select" id="category">
-          <!--<option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>-->
-        </select>
-      </div>
-      <div class="input-group-lg">
-        <span class="input-group-text">게시글 내용</span>
-        <textarea name="content" class="form-control" id="content" aria-label="With textarea" rows="15"></textarea>
-      </div>
-      <div class="d-flex justify-content-center mt-3">
-        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="writePost()">Upload</button>
-        <button type="submit" class="btn btn-dark btn-lg me-5 w-25" onclick="location.href='/'">Cancel</button>
-      </div>
-    </form>`*/
             let html = `<div class="input-group mb-3">
         <span class="input-group-text" id="inputGroup-title">게시글 제목</span>
         <input name="title" type="text" id="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing">
@@ -136,11 +87,6 @@
         }
 
         function writePost() {
-            /*const form = document.querySelector("#writePostForm");
-            const title = form.querySelector("#title").value;
-            const content = form.querySelector("#content").value;
-            const category_id = form.querySelector("#category").value;*/
-
             const title = document.querySelector("#title").value;
             const content = document.querySelector("#content").value;
             const category_id = document.querySelector("#category").value;
