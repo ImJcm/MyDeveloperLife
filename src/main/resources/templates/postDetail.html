@@ -53,18 +53,6 @@
 
         });
 
-        function updateRequest() {
-            $.ajax({
-                type:'GET',
-                url:'/api/post/modify/'+ postId,
-                success: function(response) {
-                    window.location.href = "/api/post";
-                }, error: function(req,status,error) {
-                    alert("게시글 수정 실패");
-                }
-            })
-        }
-
         function deleteRequest() {
             console.log(postId)
             $.ajax({
@@ -112,7 +100,7 @@
             <span class="date">게시일</span> : <span th:text="${post.createdAt}"> </span>
             <br/>
             <div class="rightBtn">
-                <button type="button" class="btn btn-dark" th:onclick="updateRequest()">수정</button>
+                <button type="button" class="btn btn-dark" th:onclick="|location.href='@{/api/post/modify(id=${post.id})}'|">수정</button>
                 <button type="button" class="btn btn-dark" th:onclick="deleteRequest()">삭제</button>
                 <button type="button" class="btn btn-dark" onclick="history.back();">목록</button>
                 <br/>

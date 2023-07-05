@@ -39,11 +39,11 @@ public class PostController {
         return "writePost";
     }
 
-    @GetMapping("/post/modify/{id}")
-    public String modifyPostView(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+    @GetMapping("/post/modify")
+    public String modifyPostView(@RequestParam Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         if(!userService.lookupUser(postService.lookupPost(id).getUser_id()).getName().equals(userDetails.getUsername())) {
             /* 게시글 작성자가 아닐 시, id에 해당하는 게시글 페이지로 이동 */
-            return "redirect:/api/post/"+id;  //아직 상세페이지 이동 api를 모르는 상태 - 수정필요
+            return "redirect:/api/post-page/"+id;
         }
         model.addAttribute("info_username",userDetails.getUser().getName());
         model.addAttribute("info_post",postService.lookupPost(id));
