@@ -29,3 +29,8 @@
     text-align: center;
     color: #212529;
 }
+
+.login-input-box{
+    text-align: left;
+    width: 323px;
+}

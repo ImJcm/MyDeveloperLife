@@ -19,17 +19,20 @@
 <div id="login-form">
     <div id="login-title">Login</div>
     <br>
-    <div>
+    <div class="login-content">
         <br/><br/>
         <div class="login-id-label">ID</div>
         <input type="text" name="name" id="name" class="login-input-box">
+
         <br/><br/>
         <div class="login-id-label">Password</div>
         <input type="password" name="password" id="password" class="login-input-box">
 
         <br/><br/><br/>
-        <button class="btn-dark" onclick="onLogin()">로그인</button> &nbsp; &nbsp;
-        <button class="btn-dark" onclick="location.href='/api/user/signup'">회원가입</button>
+        <div class="login-btn">
+            <button class="btn btn-dark btn-lg me-5 w-5" onclick="onLogin()">로그인</button> &nbsp; &nbsp;
+            <button class="btn btn-dark btn-lg me-5 w-5" onclick="location.href='/api/user/signup'">회원가입</button>
+        </div>
 
     </div>
     <div id="login-failed" style="display:none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
