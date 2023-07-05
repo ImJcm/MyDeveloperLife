@@ -14,67 +14,111 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <meta charset="UTF-8">
     <title>로그인 페이지</title>
+
+    <style>
+        #login-form {
+            width: 538px;
+            height: 710px;
+            margin: 70px auto 141px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            /*gap: 96px;*/
+            padding: 56px 0 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+        }
+
+        #login-title {
+            width: 303px;
+            height: 32px;
+            /*margin: 56px auto auto auto;*/
+            flex-grow: 0;
+            font-family: SpoqaHanSansNeo;
+            font-size: 32px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: -0.96px;
+            text-align: center;
+            color: #212529;
+        }
+
+        .login-input-box{
+            text-align: left;
+            width: 323px;
+        }
+    </style>
+
+
+    <script>
+        $(document).ready(function () {
+            // 토큰 삭제
+            Cookies.remove('Authorization', {path: '/'});
+        });
+
+        const href = location.href;
+        const queryString = href.substring(href.indexOf("?") + 1)
+        if (queryString === 'error') {
+            const errorDiv = document.getElementById('login-failed');
+            errorDiv.style.display = 'block';
+        }
+
+        const host = 'http://' + window.location.host;
+
+        function onLogin() {
+            let name = $('#name').val();
+            let password = $('#password').val();
+
+            $.ajax({
+                type: "POST",
+                url: `/api/user/login`,
+                contentType: "application/json",
+                data: JSON.stringify({name: name, password: password}),
+            })
+                .done(function (res, status, xhr) {
+                    const token = xhr.getResponseHeader('Authorization');
+
+                    Cookies.set('Authorization', token, {path: '/'})
+
+                    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                        jqXHR.setRequestHeader('Authorization', token);
+                    });
+
+                    window.location.href = host;
+                })
+                .fail(function (jqXHR, textStatus) {
+                    alert("Login Fail");
+                    window.location.href = host + '/api/user/login-page?error'
+                });
+        }
+    </script>
+
 </head>
 <body>
 <div id="login-form">
     <div id="login-title">Login</div>
     <br>
-    <div>
+    <div class="login-content">
         <br/><br/>
         <div class="login-id-label">ID</div>
         <input type="text" name="name" id="name" class="login-input-box">
+
         <br/><br/>
         <div class="login-id-label">Password</div>
         <input type="password" name="password" id="password" class="login-input-box">
 
         <br/><br/><br/>
-        <button class="btn-dark" onclick="onLogin()">로그인</button> &nbsp; &nbsp;
-        <button class="btn-dark" onclick="location.href='/api/user/signup'">회원가입</button>
+        <div class="login-btn">
+            <button class="btn btn-dark btn-lg me-5 w-5" onclick="onLogin()">로그인</button> &nbsp; &nbsp;
+            <button class="btn btn-dark btn-lg me-5 w-5" onclick="location.href='/api/user/signup'">회원가입</button>
+        </div>
 
     </div>
     <div id="login-failed" style="display:none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
 </div>
 </body>
-<script>
-    $(document).ready(function () {
-        // 토큰 삭제
-        Cookies.remove('Authorization', {path: '/'});
-    });
-
-    const href = location.href;
-    const queryString = href.substring(href.indexOf("?") + 1)
-    if (queryString === 'error') {
-        const errorDiv = document.getElementById('login-failed');
-        errorDiv.style.display = 'block';
-    }
-
-    const host = 'http://' + window.location.host;
-
-    function onLogin() {
-        let name = $('#name').val();
-        let password = $('#password').val();
-
-        $.ajax({
-            type: "POST",
-            url: `/api/user/login`,
-            contentType: "application/json",
-            data: JSON.stringify({name: name, password: password}),
-        })
-            .done(function (res, status, xhr) {
-                const token = xhr.getResponseHeader('Authorization');
-
-                Cookies.set('Authorization', token, {path: '/'})
-
-                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-                    jqXHR.setRequestHeader('Authorization', token);
-                });
-
-                window.location.href = host;
-            })
-            .fail(function (jqXHR, textStatus) {
-                alert("Login Fail");
-                window.location.href = host + '/api/user/login-page?error'
-            });
-    }
-</script>
 </html>

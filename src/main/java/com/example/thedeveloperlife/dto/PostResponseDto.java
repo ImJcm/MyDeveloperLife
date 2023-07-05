@@ -17,6 +17,7 @@ public class PostResponseDto {
     private LocalDateTime modifiedAt;
     private Long category_id;
     private Long user_id;
+    private String userName;
     private List<CommentResponseDto> commentResponseDtoList;
 
     public PostResponseDto(Post post) {
@@ -26,8 +27,8 @@ public class PostResponseDto {
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
         this.category_id = post.getCategory().getId();
-
         this.user_id = post.getUser().getId();
+        this.userName = post.getUser().getName();
         if(post.getCommentList().size()>0) {
             this.commentResponseDtoList = new ArrayList<>();
             for (Comment comment : post.getCommentList()) {
