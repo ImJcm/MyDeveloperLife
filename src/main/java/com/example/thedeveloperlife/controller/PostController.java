@@ -24,11 +24,15 @@ public class PostController {
     private final UserService userService;
 
     @PostMapping("/post")
-    //public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    public String createPost(@RequestBody PostRequestDto requestDto,Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        //return postService.createPost(requestDto, userDetails.getUser());
-        model.addAttribute("info", postService.createPost(requestDto, userDetails.getUser()));
-        return "createPost";
+    @ResponseBody
+    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+      return postService.createPost(requestDto, userDetails.getUser());
+    }
+    @GetMapping("/post/write")
+    public String createPostView(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println(userDetails.getUsername());
+        model.addAttribute("info", userDetails.getUser().getName());
+        return "writePost";
     }
 
     @GetMapping("/posts")
@@ -58,4 +62,6 @@ public class PostController {
     public ResponseEntity<ApiResponseDto> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.deletePost(id, userDetails.getUser());
     }
+
+
 }
