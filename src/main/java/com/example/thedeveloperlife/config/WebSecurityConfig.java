@@ -66,10 +66,12 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                         .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
+                        .requestMatchers("/**").permitAll() // 메인 페이지 요청 허가
                         .requestMatchers("/api/user/**").permitAll() // 로그인, 회원가입 누구나 가능.
                         .requestMatchers("/api/categories").permitAll() //전체 카테고리 조회는 누구나 허용
                         .requestMatchers("/api/posts/**").permitAll()  //전체 게시글 조회는 누구나 허용
-                        .requestMatchers("/api/post/{id}").permitAll()
+                        .requestMatchers("/api/post-page/{id}").permitAll() //상세 게시글 조회는 누구나 허용 - html 맵핑
+                        .requestMatchers("/api/post/{id}").permitAll() //상세 게시글 조회는 누구나 허용 - responseBody 있는 url
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
