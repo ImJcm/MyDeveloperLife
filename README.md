@@ -1,6 +1,14 @@
 # 팀 프로젝트 : The Developer Life #
 ## 프로젝트 시연 영상 ##
 https://youtu.be/2LjzWP-4XJE
+
+---
+
+## 최종프로젝트 결과 정리 ##
+https://www.notion.so/cm97/f4e1117c1a934412bf41fd1268e1b7b5?pvs=4
+
+---
+
 ## 프로젝트 목적 ##
 - 개발자 또는 예비개발자들의 취미, 개발 팁 등의 정보들을 공유를 위한 커뮤니티
 ---
