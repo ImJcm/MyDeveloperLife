@@ -60,13 +60,13 @@
             float: left;
             text-justify: auto;
             width: 10%;
+
         }
 
         #post-cards {
             float:left;
             width: 90%;
         }
-
         .title_bottom_btn {
             float: right;
             margin-top: 10px;
@@ -117,7 +117,7 @@
         function setHtml(post_title, post_id) {
             let html = `
         <div class="card" style="width: 18rem;" onclick="location.href='/api/post-page/' + ${post_id}">
-            <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTEwMDVfMTIx%2FMDAxNjMzNDExNTY3Mzcw.x-nuyhK4Rek1cZyCqawL1bcIJ2zND2UOesRwP1IdjYog.yIG8xUwAEo9VXMr6I3swNSehO0vmBWFdipoQnnTQJBAg.JPEG.latte_two%2FKakaoTalk_20211005_141825257_04.jpg&type=sc960_832" style="width: 286px" class="card-img-top" alt="...">
+            <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fbsbttb%2FbtsmHij0CE5%2Ft3OSTJ0oK22KENhO4gSJu1%2Fimg.jpg" style="width: 286px"  class="card-img-top" alt="...">
 
             <div class="card-body">
                 <h5 class="card-title">${post_title}</h5>
@@ -199,6 +199,14 @@
             }
             window.location.href = '/api/post/write';
         }
+
+        $(document).ready(function(){
+            var currentPosition = parseInt($(".category").css("top"));
+            $(window).scroll(function() {
+                var position = $(window).scrollTop();
+                $(".category").stop().animate({"top":position+currentPosition+"px"},1000);
+            });
+        });
     </script>
 </head>
 <body>
@@ -238,6 +246,7 @@
     </button>
 </div>
 <br/>
+
 <div class="postBody">
     <div class="category" id="category-cards">
         <button onclick="location.href='/'"
