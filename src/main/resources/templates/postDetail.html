@@ -123,7 +123,7 @@
 
     <script th:inline="javascript">
         let postId = [[${post.id}]]
-        let commentList = [[${commentList}]];
+        let username = [[${user}]];
 
         $(document).ready(function () {
             showPage();
@@ -228,15 +228,16 @@
         }
 
         function setUserType() {
-            let username = [[${user}]];
-            if (username === 'Guest') {
+            if(username === 'Guest') {
                 $('button.login').removeClass('inactive');
                 $('button.logout').addClass('inactive');
+                $('button.mypage').addClass('inactive');
                 $('button.signup').removeClass('inactive');
             } else {
                 $('button.login').addClass('inactive');
                 $('button.logout').removeClass('inactive');
-                $('button.signup').removeClass('inactive');
+                $('button.signup').addClass('inactive');
+                $('button.mypage').removeClass('inactive');
 
                 $('.welcome-msg').text(username + '님 환영합니다.')
             }
@@ -258,8 +259,9 @@
 </div>
 
 <div class="rightBtn">
-    <span class="welcome-msg"></span> <br/>
-    <button onclick="location.href='/api/user/login-page'" class="btn btn-dark login"> Log In</button>
+    <span class="welcome-msg"></span>  <br/>
+    <button onclick="location.href='/api/user/profile'" class="btn btn-dark mypage" style="background-color: white; color:black;"> MyPage</button>
+    <button onclick="location.href='/api/user/login-page'" class="btn btn-dark login" style="background-color: white; color:black;"> Log In</button>
     <button onclick="logout()" class="btn btn-dark logout"> Log Out</button>
     <button onclick="location.href='/api/user/signup'" class="btn btn-dark signup"> Sign Up</button>
 </div>
