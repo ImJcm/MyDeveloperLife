@@ -9,6 +9,5 @@ import lombok.Setter;
 public class CommentRequestDto{
 
     @NotBlank(message = "공백은 혀용하지 않습니다.")
-    @NotBlank
     private String Content;
 }
