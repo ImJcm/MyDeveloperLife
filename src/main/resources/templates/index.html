@@ -19,17 +19,20 @@
     <style>
         .title {
             text-align: center;
+            float: inherit;
             margin-top: 30px;
             background-color: white;
         }
         .subtitle {
             font-size: 14px;
             text-align: center;
+
         }
         .btn {
             margin-top: 20px;
-            margin-right: 10px;
-            text-align: right;
+            margin-right: 40px;
+            float: right;
+
         }
         .postBody {
             height: 500px;
@@ -92,6 +95,8 @@
     <button onClick="location.href='/api/user/login-page'" style="background-color: white; color: black; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">Log In</button>
     <button onClick="location.href='/api/user/signup'" style="background-color: black; color: white; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">Sign Up</button>
 </div>
+<br/><br/>
+
 <div class="title">
     <h1> The Developer Life</h1>
 </div>
@@ -99,11 +104,12 @@
     <b>예비 개발자 또는 개발자들의 TMI (TIL, 개발 팁, 취미 등) 공유를 위한 커뮤니티</b>
 </div>
 
+<br/><br/>
 <div class="title_bottom_btn">
     <button onClick="location.href='/api/post/write'" style="background-color: black; color: white; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">Upload</button>
     <button onClick="location.href='/api/post/modify/5'" style="background-color: black; color: white; width: 95px; height: 35px; border-radius: 6px;font-size: 15px; font-weight: bolder; ">modify</button>
 </div>
-
+<br/>
 <div class="postBody" id="">
     <div class="category" >
         <button style="background-color: black; color: white; width: 95px; height: 38px; border-radius: 6px;font-size: 15px; font-weight: bolder;">카테고리 </button>

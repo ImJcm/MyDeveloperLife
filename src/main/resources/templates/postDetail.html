@@ -21,6 +21,7 @@
             margin-top: 30px;
             background-color: white;
         }
+
         .leftBtn {
             margin-left: 20px;
             margin-top: 20px;
@@ -28,7 +29,8 @@
             text-align: right;
             display: inline-block;
         }
-        .rightBtn{
+
+        .rightBtn {
             float: right;
             text-align: right;
             margin-left: 10px;
@@ -37,13 +39,53 @@
         }
 
         .all-body {
+            width: auto;
+            min-width: 568px;
+            margin: 50px 200px;
             text-align: center;
         }
 
-        .comment-textarea{
+        .comment-textarea {
             width: 500px;
             text-align: left;
         }
+
+        .postForm {
+            font-size: 20px;
+            text-align: left;
+        }
+        .commentForm{
+            margin-top: 20px;
+            font-size: 20px;
+            text-align: left;
+        }
+
+        .dateAuth{
+            font-size: 20px;
+            text-align: left;
+        }
+        #subPostTitle {
+            font-size: 20px;
+            text-align: left;
+            font-weight: bold;
+        }
+        #subPostTitle2 {
+             font-size: 20px;
+             text-align: left;
+             font-weight: bold;
+         }
+
+
+        .post-title{
+            font-size: 45px;
+            text-align: center;
+        }
+
+        #comment-submit-btn{
+            margin-top: 10px;
+            margin-left: 5px;
+        }
+
     </style>
 
     <script>
@@ -56,12 +98,12 @@
         function deleteRequest() {
             console.log(postId)
             $.ajax({
-                type:'DELETE',
-                url:'/api/post/'+ postId,
-                success: function(response) {
+                type: 'DELETE',
+                url: '/api/post/' + postId,
+                success: function (response) {
                     alert("게시글 삭제 성공");
                     window.location.href = "/";
-                }, error: function(req,status,error) {
+                }, error: function (req, status, error) {
                     alert("게시글 삭제 실패");
                 }
             })
@@ -78,53 +120,71 @@
 
 <div class="rightBtn">
     <span class="welcome-msg" th:text="${user}"></span> 님, 환영합니다.<br/>
-    <button onClick="location.href='/api/user/login-page'"  class="btn btn-dark"> Log In </button>
-    <button onClick="location.href='/api/user/signup'" class="btn btn-dark"> Sign Up </button>
+    <button onClick="location.href='/api/user/login-page'" class="btn btn-dark"> Log In</button>
+    <button onClick="location.href='/api/user/signup'" class="btn btn-dark"> Sign Up</button>
 </div>
 <br/><br/>
 
-<div class="title">
-    <h1> The Developer Life</h1>
+<div class="header mb-5">
+    <div class="title">
+        <h1>The Developer Life</h1>
+        <p>게시글 상세 페이지</p>
+    </div>
 </div>
-<br/>
 
-<div class="all-body">
+<div class="post-title">
+    <b><span th:text="${post.title}"></span></b>
+</div>
+<hr>
 
-
-    <div class="post-details">
-        <h3 class="post-title" th:text="${post.title}"></h3>
-        <br/>
-        <hr>
+<div class="all-body" id="body">
+    <form class="postForm">
         <div class="post-info">
-            <span class="author">작성자</span> : <span th:text="${post.userName}"> </span>
-            <span class="date">게시일</span> : <span th:text="${post.createdAt}"> </span>
-            <br/>
             <div class="rightBtn">
-                <button type="button" class="btn btn-dark" th:onclick="|location.href='@{/api/post/modify(id=${post.id})}'|">수정</button>
+                <button type="button" class="btn btn-dark"
+                        th:onclick="|location.href='@{/api/post/modify(id=${post.id})}'|">수정
+                </button>
                 <button type="button" class="btn btn-dark" th:onclick="deleteRequest()">삭제</button>
                 <button type="button" class="btn btn-dark" onclick="history.back();">목록</button>
-                <br/>
             </div>
         </div>
-        <br/>
-        <div class="content">
-            <span class="author">내용 </span> <br/>
-            <textarea cols="50" rows="10" th:text="${post.content}"> </textarea>
+
+        <br/><br/>
+        <div class="dateAuth">
+        <b><span class="author">작성자</span></b> : <span th:text="${post.userName}"> </span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <b><span class="date">게시일</span></b> : <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"> </span>
+        <br/><br/>
         </div>
 
+        <div class="input-group-lg">
+            <span class="input-group-text" id="subPostTitle">게시글 내용</span>
+            <span class="post-content" aria-label="With textarea"
+                      th:text="${post.content}"></span>
+        </div>
+        <br/><br/><br/>
+    </form>
+
+    <form class="commentForm">
         <hr>
         <div class="comments">
-            <h3>댓글</h3>
+
+            <div class="input-group-lg">
+                <span class="input-group-text" id="subPostTitle2">댓글</span>
+                <textarea class="form-control" id="commentContent" aria-label="With textarea" rows="2"
+                          placeholder="댓글을 입력하세요"></textarea>
+                <button class="btn btn-dark" id="comment-submit-btn" onclick="">등록</button>
+            </div>
+
             <div class="comment-list">
                 <!-- 댓글 목록이 여기에 동적으로 추가될 예정 -->
             </div>
-            <div class="new-comment">
-                <textarea class="comment-textarea" placeholder="댓글을 입력하세요"></textarea>
-                <button class="comment-submit-btn">등록</button>
-            </div>
+
         </div>
-    </div>
+    </form>
+
 </div>
+
 
 </body>
 </html>
