@@ -41,14 +41,11 @@ public class UserRestController {
     }
 
     @GetMapping("/update")
-    public String updatePage(@RequestParam Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
+    public String updatePage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
             throws JsonProcessingException {
-//        if(!userService.lookupUser(id).getName().equals(userDetails.getUsername())) {
-//            /* id에 해당하는 프로필로 이동 */
-//            return "redirect:/api/user/profile";
-//        }
+
         model.addAttribute("info_username",userDetails.getUser().getName());
-        model.addAttribute("info_user",userService.lookupUser(id));
+        model.addAttribute("info_user",userDetails.getUser());
         return "update";
     }
 

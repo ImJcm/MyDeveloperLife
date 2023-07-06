@@ -8,17 +8,32 @@ import com.example.thedeveloperlife.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@Controller
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
+    // 댓글 조회
+    //@GetMapping("/post/comment/{id}")
+    //public String lookupPost(@PathVariable Long id) {
+    //    return "redirect:/api/post-page/"+id;
+    //}
+    @GetMapping("/post/comment/{id}")
+    public List<CommentResponseDto> lookupPost(@PathVariable Long id) {
+        return commentService.getComments(id);
+    }
+
+
     // 댓글 작성
     @PostMapping("/post/{id}/comment")
+    @ResponseBody
     public CommentResponseDto createComment(
             @PathVariable Long id, // 게시글 id
             @RequestBody CommentRequestDto requestDto, // 댓글 내용
@@ -30,6 +45,7 @@ public class CommentController {
 
     // 댓글 수정
     @PutMapping("/post/comment/{id}")
+    @ResponseBody
     public CommentResponseDto updateComment(
             @PathVariable Long id,
             @RequestBody CommentRequestDto requestDto,
@@ -41,6 +57,7 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/post/comment/{id}")
+    @ResponseBody
     public ResponseEntity<ApiResponseDto> deleteComment(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails
