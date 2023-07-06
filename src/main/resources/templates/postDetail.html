@@ -12,11 +12,21 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-    <script src="/js/basic.js"></script>
     <meta charset="UTF-8">
     <title>게시글 상세 페이지</title>
 
     <style>
+
+        .dropdown-toggle {
+            color: white;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
         .title {
             text-align: center;
             margin-top: 30px;
@@ -46,11 +56,6 @@
             text-align: center;
         }
 
-        .comment-textarea {
-            width: 500px;
-            text-align: left;
-        }
-
         .postForm {
             font-size: 20px;
             text-align: left;
@@ -58,11 +63,6 @@
 
         .commentForm {
             margin-top: 20px;
-            font-size: 20px;
-            text-align: left;
-        }
-
-        #comment-title {
             font-size: 20px;
             text-align: left;
         }
@@ -89,12 +89,34 @@
             margin-bottom: 20px;
 
         }
-        .commentList{
-            margin-top: 10px;
-        }
 
         .inactive {
-            display : none;
+            display: none;
+        }
+
+        .comment-list li {
+            margin-bottom: 20px;
+        }
+
+        .comment {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            MARGIN-BOTTOM: 10PX;
+        }
+
+        .comment .author {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .comment .timestamp {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .comment .content {
+            margin-top: 5px;
         }
 
     </style>
@@ -126,21 +148,51 @@
         }
 
         function setHtml(commentContent, createdAt, modifiedAt, user_id) {
-            let commentDate = new Date(createdAt).toLocaleTimeString();
-            if(modifiedAt>createdAt) {
+            let commentDate = new Date(createdAt).toDateString()  + " " + new Date(createdAt).toLocaleTimeString();
+            if (modifiedAt > createdAt) {
                 console.log('수정날짜가 더 큼')
-                commentDate = new Date(modifiedAt).toLocaleTimeString();
+                commentDate = new Date(modifiedAt).toDateString() + " " + new Date(modifiedAt).toLocaleTimeString();
             }
-            let html = `<div class="commentList">
-                         <span> 작성자: ${user_id} </span> &nbsp;&nbsp;
-                         <span> 작성일자: ${commentDate} </span> <br/>
-                         <span> ${commentContent} </span>
-                       </div> `;
+            let html =
+/*                `<div class="comment">
+                    <div class="author">${user_id}</div>
+                    <div class="timestamp"> ${commentDate}</div>
+                    <div class="content">${commentContent} </div>
+                    <div class="actions">
+                        <button class="btn btn-sm btn-danger delete-comment-btn btn-dark">삭제</button>
+                        <button class="btn btn-sm btn-primary edit-comment-btn btn-dark">수정</button>
+                    </div>
+                </div>`;*/
+            `<div class="comment">
+                    <div class="comment-header">
+                        <div class="row">
+                            <div class="col">
+                                <div class="author">${user_id}</div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="actions">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="commentActionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            더보기
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="commentActionDropdown">
+                                            <a class="dropdown-item edit-comment-btn btn-dark" href="">수정</a>
+                                            <a class="dropdown-item delete-comment-btn btn-dark" href="#">삭제</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timestamp">${commentDate}</div>
+                        <div class="content">${commentContent} </div>
+                    </div>
+                </div>`;
             $('#comment-list').prepend(html);
         }
 
         const host = 'http://' + window.location.host;
-        function writeComment() {
+
+        function writePost() {
             const content = document.querySelector("#commentContent").value;
 
             const data = {
@@ -161,7 +213,7 @@
             })
         }
 
-        function deleteRequest() {
+        function deletePost() {
             console.log(postId)
             $.ajax({
                 type: 'DELETE',
@@ -174,9 +226,10 @@
                 }
             })
         }
+
         function setUserType() {
             let username = [[${user}]];
-            if(username === 'Guest') {
+            if (username === 'Guest') {
                 $('button.login').removeClass('inactive');
                 $('button.logout').addClass('inactive');
                 $('button.signup').removeClass('inactive');
@@ -188,6 +241,13 @@
                 $('.welcome-msg').text(username + '님 환영합니다.')
             }
         }
+
+        $(document).ready(function() {
+            $('.dropdown-toggle').on('click', function() {
+                $(this).siblings('.dropdown-menu').toggle();
+            });
+        });
+
     </script>
 
 </head>
@@ -198,7 +258,7 @@
 </div>
 
 <div class="rightBtn">
-    <span class="welcome-msg"></span>  <br/>
+    <span class="welcome-msg"></span> <br/>
     <button onclick="location.href='/api/user/login-page'" class="btn btn-dark login"> Log In</button>
     <button onclick="logout()" class="btn btn-dark logout"> Log Out</button>
     <button onclick="location.href='/api/user/signup'" class="btn btn-dark signup"> Sign Up</button>
@@ -224,7 +284,7 @@
                 <button type="button" class="btn btn-dark"
                         th:onclick="|location.href='@{/api/post/modify(id=${post.id})}'|">수정
                 </button>
-                <button type="button" class="btn btn-dark" th:onclick="deleteRequest()">삭제</button>
+                <button type="button" class="btn btn-dark" th:onclick="deletePost()">삭제</button>
                 <button type="button" class="btn btn-dark" onclick="location.href='/'">목록</button>
             </div>
         </div>
@@ -250,26 +310,47 @@
     <form class="commentForm">
         <hr>
         <div class="comments">
-
             <div class="input-group-lg">
                 <span class="input-group-text" id="subPostTitle2">댓글</span>
                 <textarea class="form-control" id="commentContent" aria-label="With textarea" rows="2"
                           placeholder="댓글을 입력하세요"></textarea>
-                <button class="btn btn-dark" id="comment-submit-btn" onclick="writeComment()">등록</button>
+                <button class="btn btn-dark" id="comment-submit-btn" onclick="writePost()">등록</button>
             </div>
 
             <br/><br/>
+
             <div id="comment-list">
-                <div>
-                    <span>내용</span>
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="row">
+                            <div class="col">
+                                <div class="author">주닭발</div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="actions">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="commentActionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            ...
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="commentActionDropdown">
+                                            <a class="dropdown-item edit-comment-btn btn-dark" href="#">수정</a>
+                                            <a class="dropdown-item delete-comment-btn btn-dark" href="#">삭제</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timestamp">어쩌구저쩌구 날</div>
+                        <div class="content">댓글 입력하숑.</div>
+                    </div>
                 </div>
             </div>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
         </div>
     </form>
-
 </div>
-
-
 </body>
 </html>
