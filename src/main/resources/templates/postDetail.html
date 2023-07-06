@@ -138,14 +138,18 @@
 
         function getComments() {
             $('#comment-list').empty();
-            for (const comment of commentList) {
-                let commentId = comment['id'];
-                let commentContent = comment['content'];
-                let createdAt = comment['createdAt'];
-                let modifiedAt = comment['modifiedAt'];
-                let user_id = comment['userName'];
+            if (commentList === null) {
+                return;
+            } else {
+                for (const comment of commentList) {
+                    let commentId = comment['id'];
+                    let commentContent = comment['content'];
+                    let createdAt = comment['createdAt'];
+                    let modifiedAt = comment['modifiedAt'];
+                    let user_id = comment['userName'];
 
-                setHtml(commentContent, createdAt, modifiedAt, user_id);
+                    setHtml(commentContent, createdAt, modifiedAt, user_id);
+                }
             }
         }
 
