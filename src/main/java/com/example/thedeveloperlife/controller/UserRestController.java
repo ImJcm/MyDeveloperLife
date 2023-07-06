@@ -31,11 +31,6 @@ public class UserRestController {
     @GetMapping("/profile")
     public String getPost(Model model,
                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        if(userDetails != null) {
-//            model.addAttribute("user", userDetails.getUser().getName());
-//        }else {
-//            model.addAttribute("user", "Guest");
-//        }
         model.addAttribute("user", userDetails.getUser());
         return "profile"; // profile.html view
     }
