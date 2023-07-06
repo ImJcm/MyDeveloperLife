@@ -17,20 +17,13 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class CommentController {
-
     private final CommentService commentService;
 
-    // 댓글 조회
-    //@GetMapping("/post/comment/{id}")
-    //public String lookupPost(@PathVariable Long id) {
-    //    return "redirect:/api/post-page/"+id;
-    //}
     @GetMapping("/post/comment/{id}")
     @ResponseBody
     public List<CommentResponseDto> lookupPost(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.getComments(id);
     }
-
 
     // 댓글 작성
     @PostMapping("/post/{id}/comment")
