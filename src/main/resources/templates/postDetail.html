@@ -138,24 +138,20 @@
         });
 
         function getComments() {
-            $.ajax({
-                type: 'GET',
-                url: '/api/post/comment/' + postId,
-                success: function(response) {
-                    $('#comment-list').empty();
-                    for(let i=0;i<response.length;i++) {
-                        let comment = response[i];
-                        let commentId = comment['id'];
-                        let commentContent = comment['content'];
-                        let createdAt = comment['createdAt'];
-                        let modifiedAt = comment['modifiedAt'];
-                        let user_id = comment['userName'];
+            $('#comment-list').empty();
+            if (commentList === null) {
+                return;
+            } else {
+                for (const comment of commentList) {
+                    let commentId = comment['id'];
+                    let commentContent = comment['content'];
+                    let createdAt = comment['createdAt'];
+                    let modifiedAt = comment['modifiedAt'];
+                    let user_id = comment['userName'];
 
-                        setHtml(commentContent, createdAt, modifiedAt, user_id);
-                    }
+                    setHtml(commentContent, createdAt, modifiedAt, user_id);
                 }
-            })
-
+            }
         }
 
         function setHtml(commentContent, createdAt, modifiedAt, user_id) {
