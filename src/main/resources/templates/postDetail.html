@@ -122,7 +122,7 @@
 </div>
 
 <div class="rightBtn">
-    <span class="welcome-msg" th:text="${user}"></span> 님, 환영합니다.<br/>
+    <span class="welcome-msg" th:text="${user} == 'Guest' ? '' : ${user}+'님, 환영합니다.'"></span>  <br/>
     <button onClick="location.href='/api/user/login-page'" class="btn btn-dark"> Log In</button>
     <button onClick="location.href='/api/user/signup'" class="btn btn-dark"> Sign Up</button>
 </div>
