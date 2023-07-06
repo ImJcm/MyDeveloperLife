@@ -54,34 +54,37 @@
             font-size: 20px;
             text-align: left;
         }
-        .commentForm{
+
+        .commentForm {
             margin-top: 20px;
             font-size: 20px;
             text-align: left;
         }
 
-        .dateAuth{
+        .dateAuth {
             font-size: 20px;
             text-align: left;
         }
+
         #subPostTitle {
             font-size: 20px;
             text-align: left;
             font-weight: bold;
         }
+
         #subPostTitle2 {
-             font-size: 20px;
-             text-align: left;
-             font-weight: bold;
-         }
+            font-size: 20px;
+            text-align: left;
+            font-weight: bold;
+        }
 
 
-        .post-title{
+        .post-title {
             font-size: 45px;
             text-align: center;
         }
 
-        #comment-submit-btn{
+        #comment-submit-btn {
             margin-top: 10px;
             margin-left: 5px;
         }
@@ -115,7 +118,7 @@
 <body>
 
 <div class="leftBtn">
-    <input type="button" class="btn btn-dark" value="Back" onclick="history.back();"/>
+    <input type="button" class="btn btn-dark" value="Back" onclick="location.href='/'"/>
 </div>
 
 <div class="rightBtn">
@@ -145,22 +148,24 @@
                         th:onclick="|location.href='@{/api/post/modify(id=${post.id})}'|">수정
                 </button>
                 <button type="button" class="btn btn-dark" th:onclick="deleteRequest()">삭제</button>
-                <button type="button" class="btn btn-dark" onclick="history.back();">목록</button>
+                <button type="button" class="btn btn-dark" onClick="location.href='/'">목록</button>
             </div>
         </div>
 
         <br/><br/>
         <div class="dateAuth">
-        <b><span class="author">작성자</span></b> : <span th:text="${post.userName}"> </span>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <b><span class="date">게시일</span></b> : <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"> </span>
-        <br/><br/>
+            <b><span class="author">작성자</span></b> : <span
+                th:text="${post.category_id == 2 ? '익명' : post.userName}"></span> </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b><span class="date">게시일</span></b> : <span
+                th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"> </span>
+            <br/><br/>
         </div>
 
         <div class="input-group-lg">
             <span class="input-group-text" id="subPostTitle">게시글 내용</span>
             <span class="post-content" aria-label="With textarea"
-                      th:text="${post.content}"></span>
+                  th:text="${post.content}"></span>
         </div>
         <br/><br/><br/>
     </form>
