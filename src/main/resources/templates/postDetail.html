@@ -124,6 +124,8 @@
     <script th:inline="javascript">
         let postId = [[${post.id}]]
         let username = [[${user}]];
+        let commentList = [[${commentList}]];
+
 
         $(document).ready(function () {
             showPage();
@@ -249,6 +251,12 @@
             });
         });
 
+        function logout() {
+            // 토큰 삭제
+            Cookies.remove('Authorization', {path: '/'});
+            window.location.href = host;
+        }
+
     </script>
 
 </head>
@@ -286,7 +294,7 @@
                 <button type="button" class="btn btn-dark"
                         th:onclick="|location.href='@{/api/post/modify(id=${post.id})}'|">수정
                 </button>
-                <button type="button" class="btn btn-dark" th:onclick="deletePost()">삭제</button>
+                <button type="button" class="btn btn-dark" onclick="deletePost()">삭제</button>
                 <button type="button" class="btn btn-dark" onclick="location.href='/'">목록</button>
             </div>
         </div>
@@ -297,7 +305,7 @@
                 th:text="${post.category_id == 7 ? '익명' : post.userName}"></span> </span>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b><span class="date">게시일</span></b> : <span
-                th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"> </span>
+                th:text="${#temporals.format(post.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"> </span>
             <br/><br/>
         </div>
 
@@ -347,10 +355,6 @@
                     </div>
                 </div>
             </div>
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
         </div>
     </form>
 </div>
