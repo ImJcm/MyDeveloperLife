@@ -53,7 +53,7 @@
 
     #detail-form {
       width: 324px;
-      height: 564px;
+      height: 530px;
 
     }
 
@@ -68,6 +68,13 @@
     .update-input-box{
       text-align: left;
       width: 323px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 3px;
+      gap: 40px; /* 간격 크기를 조정하세요 */
     }
   </style>
 
@@ -147,7 +154,7 @@
 <body>
 
 <div class="leftBtn">
-  <input type="button" class="btn btn-dark" value="Back" onclick="location.href='/'"/>
+    <input type="button" class="btn btn-dark" value="Back" onClick="location.href='/'"/>
 </div>
 
 <br/><br/>
@@ -160,7 +167,7 @@
 
 <div id="update-form">
   <div id="update-title"> Profile edit </div>
-  `<div class="update">
+  <div class="update">
   <div id="detail-form">
     <br/><br/>
     <div class="update-id-label">Nickname</div>
@@ -178,12 +185,11 @@
     <div class="update-id-label">한 줄 소개</div>
     <input type="text" name="introduce" placeholder="한 줄 소개" class="update-input-box" th:value="${info_user.introduce}">
     <br/><br/>
-  </div>`
-  <div class="d-flex justify-content-center mt-3">
-    <button onClick="location.href='/'" class="btn btn-dark" id="Cancel">Cancel</button>
-    <button onclick="editUser()" class="btn btn-dark" id="Change">Change</button>
-    <!--            editUser(${user['user']})-->
   </div>
+    <div class="button-container">
+      <button onClick="location.href='/'" class="btn btn-dark" id="Cancel">Cancel</button>
+      <button onclick="editUser()" class="btn btn-dark" id="Change">Change</button>
+    </div>
 
 </div>
 </div>
