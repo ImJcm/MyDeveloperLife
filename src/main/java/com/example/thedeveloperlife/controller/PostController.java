@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -72,6 +73,8 @@ public class PostController {
             model.addAttribute("user", "Guest");
         }
         model.addAttribute("post", responseDto);
+        model.addAttribute("commentList", responseDto.getCommentResponseDtoList());
+
         return "postDetail"; // postDetail.html view
     }
 

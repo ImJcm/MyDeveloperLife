@@ -62,23 +62,21 @@
             text-align: left;
         }
 
+        #comment-title {
+            font-size: 20px;
+            text-align: left;
+        }
+
         .dateAuth {
             font-size: 20px;
             text-align: left;
         }
 
-        #subPostTitle {
+        #subPostTitle, #subPostTitle2 {
             font-size: 20px;
             text-align: left;
             font-weight: bold;
         }
-
-        #subPostTitle2 {
-            font-size: 20px;
-            text-align: left;
-            font-weight: bold;
-        }
-
 
         .post-title {
             font-size: 45px;
@@ -88,6 +86,11 @@
         #comment-submit-btn {
             margin-top: 10px;
             margin-left: 5px;
+            margin-bottom: 20px;
+
+        }
+        .commentList{
+            margin-top: 10px;
         }
 
         .inactive {
@@ -98,10 +101,65 @@
 
     <script th:inline="javascript">
         let postId = [[${post.id}]]
+        let commentList = [[${commentList}]];
 
         $(document).ready(function () {
+            showPage();
             setUserType();
         });
+
+        function showPage() {
+            getComments();
+        }
+
+        function getComments() {
+            $('#comment-list').empty();
+            for (const comment of commentList) {
+                let commentId = comment['id'];
+                let commentContent = comment['content'];
+                let createdAt = comment['createdAt'];
+                let modifiedAt = comment['modifiedAt'];
+                let user_id = comment['userName'];
+
+                setHtml(commentContent, createdAt, modifiedAt, user_id);
+            }
+        }
+
+        function setHtml(commentContent, createdAt, modifiedAt, user_id) {
+            let commentDate = new Date(createdAt).toLocaleTimeString();
+            if(modifiedAt>createdAt) {
+                console.log('수정날짜가 더 큼')
+                commentDate = new Date(modifiedAt).toLocaleTimeString();
+            }
+            let html = `<div class="commentList">
+                         <span> 작성자: ${user_id} </span> &nbsp;&nbsp;
+                         <span> 작성일자: ${commentDate} </span> <br/>
+                         <span> ${commentContent} </span>
+                       </div> `;
+            $('#comment-list').prepend(html);
+        }
+
+        const host = 'http://' + window.location.host;
+        function writeComment() {
+            const content = document.querySelector("#commentContent").value;
+
+            const data = {
+                content: content
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/post/' + postId + '/comment',
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert("댓글 등록 성공");
+                    window.location.href = host + '/api/post/comment/' + postId;
+                }, error: function (req, status, error) {
+                    alert("댓글 등록 실패");
+                }
+            })
+        }
 
         function deleteRequest() {
             console.log(postId)
@@ -116,15 +174,12 @@
                 }
             })
         }
-
         function setUserType() {
             let username = [[${user}]];
             if(username === 'Guest') {
                 $('button.login').removeClass('inactive');
                 $('button.logout').addClass('inactive');
                 $('button.signup').removeClass('inactive');
-
-                $('.welcome-msg').text('Guest님 환영합니다.');
             } else {
                 $('button.login').addClass('inactive');
                 $('button.logout').removeClass('inactive');
@@ -157,12 +212,12 @@
     </div>
 </div>
 
-<div class="post-title">
-    <b><span th:text="${post.title}"></span></b>
-</div>
 <hr>
 
 <div class="all-body" id="body">
+    <div class="post-title">
+        <b><span th:text="${post.title}"></span></b>
+    </div>
     <form class="postForm">
         <div class="post-info">
             <div class="rightBtn">
@@ -200,11 +255,14 @@
                 <span class="input-group-text" id="subPostTitle2">댓글</span>
                 <textarea class="form-control" id="commentContent" aria-label="With textarea" rows="2"
                           placeholder="댓글을 입력하세요"></textarea>
-                <button class="btn btn-dark" id="comment-submit-btn" onclick="">등록</button>
+                <button class="btn btn-dark" id="comment-submit-btn" onclick="writeComment()">등록</button>
             </div>
 
-            <div class="comment-list">
-                <!-- 댓글 목록이 여기에 동적으로 추가될 예정 -->
+            <br/><br/>
+            <div id="comment-list">
+                <div>
+                    <span>내용</span>
+                </div>
             </div>
 
         </div>

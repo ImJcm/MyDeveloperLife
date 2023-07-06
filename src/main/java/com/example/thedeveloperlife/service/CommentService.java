@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j(topic = "댓글 Service")
@@ -90,5 +92,15 @@ public class CommentService {
         commentRepository.delete(comment);
         log.info("댓글 삭제 완료");
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "댓글 삭제 성공"));
+    }
+
+    public List<CommentResponseDto> getComments(Long postId) {
+        List<Comment> commentList = commentRepository.findAllByPostIdOrderByCreatedAt(postId);
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+
+        for (Comment comment : commentList) {
+            commentResponseDtoList.add(new CommentResponseDto(comment));
+        }
+        return commentResponseDtoList;
     }
 }
