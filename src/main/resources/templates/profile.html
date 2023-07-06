@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>My Page</title>
+
+    <style>
+        .title {
+            text-align: center;
+            float: inherit;
+            margin-top: 30px;
+            background-color: white;
+        }
+        #profile-form {
+            width: 538px;
+            height: 710px;
+            margin: 70px auto 141px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            /*gap: 96px;*/
+            padding: 56px 0 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+        }
+
+        #profile-title {
+            width: 303px;
+            height: 32px;
+            /*margin: 56px auto auto auto;*/
+            flex-grow: 0;
+            font-family: SpoqaHanSansNeo;
+            font-size: 32px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: -0.96px;
+            text-align: center;
+            color: #212529;
+        }
+
+        #detail-form {
+            width: 324px;
+            height: 564px;
+
+        }
+
+        .leftBtn {
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-right: 20px;
+            text-align: right;
+            display: inline-block;
+        }
+
+        /*.text-box {*/
+        /*    border: 1px solid #ccc;*/
+        /*    padding: 5px;*/
+        /*글박스 있는 예시*/
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="leftBtn">
+    <input type="button" class="btn btn-dark" value="Back" onClick="location.href='/'"/>
+</div>
+
+<br/><br/>
+
+<div class="header mb-5">
+    <div class="title">
+        <h1>The Developer Life</h1>
+    </div>
+</div>
+
+<div id="profile-form">
+    <div id="profile-title"> Profile </div>
+
+    <div id="detail-form">
+        <br/><br/>
+        <div class="login-id-label">ID</div>
+        <span th:text="${user.name}"></span>
+        <br/><br/>
+        <div class="login-id-label">NickName</div><span
+           th:text="${user.nickname}"></span>
+        <br/><br/>
+        <div class="login-id-label">Password</div><span
+            th:text="${user.password}"></span>
+        <br/><br/>
+        <div class="login-id-label">E-mail</div> <span
+          th:text="${user.email}"></span>
+        <br/><br/>
+        <div class="login-id-label">한 줄 소개</div><span
+          th:text="${user.introduce}"></span>
+        <br/><br/>
+
+<!--        <div class="text-box">-->
+<!--            <span th:text="${user.name}"></span>-->
+<!--</div> -->
+<!--    글박스 있는 예시-->
+        <div class="d-flex justify-content-center mt-3">
+            <button onClick="location.href='/api/user/update'" class="btn btn-dark" id="edit">Edit</button>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>My Page</title>
+
+    <style>
+        .title {
+            text-align: center;
+            float: inherit;
+            margin-top: 30px;
+            background-color: white;
+        }
+        #update-form {
+            width: 538px;
+            height: 710px;
+            margin: 70px auto 141px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            /*gap: 96px;*/
+            padding: 56px 0 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+        }
+
+        #update-title {
+            width: 303px;
+            height: 32px;
+            /*margin: 56px auto auto auto;*/
+            flex-grow: 0;
+            font-family: SpoqaHanSansNeo;
+            font-size: 32px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: -0.96px;
+            text-align: center;
+            color: #212529;
+        }
+
+        #detail-form {
+            width: 324px;
+            height: 564px;
+
+        }
+
+        .leftBtn {
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-right: 20px;
+            text-align: right;
+            display: inline-block;
+        }
+    </style>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        let username = [[${info_username}]]
+        let user = [[${info_user}]]
+        showPage(username, user);
+    });
+
+    function showPage(username, user) {
+        $('#body').empty();
+        setHtml(username, user)
+    }
+
+    function setHtml(username, post) {
+        let html = `<div class="update">
+
+       <br/><br/>
+<!--        // <div class="login-id-label">ID</div>-->
+<!--        // <input type="text" name="name" placeholder="name" class="login-input-box">-->
+<!--        // <br/><br/>-->
+        <div class="login-id-label">NickName</div>
+        <input type="text" name="nickname" placeholder="" class="login-input-box">
+        <br/><br/>
+        <div class="login-id-label">Password</div>
+        <input type="password" name="password" class="login-input-box">
+         <span th:text="${user.password}"></span>
+        <br/><br/>
+        <div class="login-id-label">Password 확인</div>
+        <input type="password" name="checkPassword" class="login-input-box">
+        <br/><br/>
+        <div class="login-id-label">E-mail</div>
+        <input type="text" name="email" placeholder="E-mail" class="login-input-box">
+        <span th:text="${user.email}"></span>
+        <br/><br/>
+        <div class="login-id-label">한 줄 소개</div>
+        <input type="text" name="introduce" placeholder="" class="login-input-box">
+        <br/><br/>
+    </div>`
+    }
+
+    function editUser(id) {
+        const nickname = document.querySelector("#nickname").value;
+        const password = document.querySelector("#password").value;
+        const email = document.querySelector("#email").value;
+        const introduce = document.querySelector("#introduce").value;
+
+        const data = {
+            nickname :  nickname,
+            password : password,
+            email : email,
+            introduce : introduce
+        }
+
+        $.ajax({
+            type:'PUT',
+            url:`/api/user/${id}`,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(response) {
+                alert("프로필 수정 성공");
+                window.location.href = `/api/profile`;
+            }, error: function(req,status,error) {
+                alert("게시글 수정 실패");
+            }
+        })
+    }
+
+</script>
+</head>
+
+<body>
+
+<div class="leftBtn">
+    <input type="button" class="btn btn-dark" value="Back" onClick="location.href='/'"/>
+</div>
+
+<br/><br/>
+
+<div class="header mb-5">
+    <div class="title">
+        <h1>The Developer Life</h1>
+    </div>
+</div>
+
+<div id="update-form">
+    <div id="update-title"> Profile edit </div>
+    `<div class="update">
+    <div id="detail-form">
+        <br/><br/>
+        <div class="login-id-label">ID</div>
+        <input type="text" name="name" placeholder="name" class="login-input-box">
+        <span th:text="${user.name}"></span>
+        <br/><br/>
+        <div class="login-id-label">E-mail</div>
+        <input type="text" name="email" placeholder="E-mail" class="login-input-box">
+        <br/><br/>
+        <div class="login-id-label">Password</div>
+        <input type="password" name="password" class="login-input-box">
+        <br/><br/>
+        <div class="login-id-label">Password 확인</div>
+        <input type="password" name="checkPassword" class="login-input-box">
+        <br/><br/>
+        <div class="login-id-label">NickName</div>
+        <input type="text" name="nickname" placeholder="" class="login-input-box">
+        <br/><br/>
+        <div class="login-id-label">한 줄 소개</div>
+        <input type="text" name="introduce" placeholder="" class="login-input-box">
+        <br/><br/>
+
+<!--        <br/><br/>-->
+<!--        <div class="login-id-label">ID</div>-->
+<!--        <span th:text="${user.name}"></span>-->
+<!--        <br/><br/>-->
+<!--        <div class="login-id-label">NickName</div><span-->
+<!--            th:text="${user.nickname}"></span>-->
+<!--        <br/><br/>-->
+<!--        <div class="login-id-label">Password</div><span-->
+<!--            th:text="${user.password}"></span>-->
+<!--        <br/><br/>-->
+<!--        <div class="login-id-label">E-mail</div> <span-->
+<!--            th:text="${user.email}"></span>-->
+<!--        <br/><br/>-->
+<!--        <div class="login-id-label">한 줄 소개</div><span-->
+<!--            th:text="${user.introduce}"></span>-->
+<!--        <br/><br/>-->
+    </div>`
+        <div class="d-flex justify-content-center mt-3">
+            <button onClick="location.href='/'" class="btn btn-dark" id="Cancel">Cancel</button>
+            <button onClick="location.href='/api/user/profile'" class="btn btn-dark" id="Change">profile</button>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
