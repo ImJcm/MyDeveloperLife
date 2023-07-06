@@ -109,7 +109,7 @@
         data: JSON.stringify(data),
         success: function(response) {
           alert("게시글 수정 성공");
-          window.location.reload();
+          window.location.href = `/api/post-page/${id}`;
         }, error: function(req,status,error) {
           alert("게시글 수정 실패");
         }
