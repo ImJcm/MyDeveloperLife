@@ -118,7 +118,8 @@
 <body>
 
 <div class="leftBtn">
-    <input type="button" class="btn btn-dark" value="Back" onclick="location.href='/'"/>
+    <input type="button" class="btn btn-dark" value="Back" onClick="location.href='/'"/>
+
 </div>
 
 <div class="rightBtn">
@@ -135,12 +136,12 @@
     </div>
 </div>
 
-<div class="post-title">
-    <b><span th:text="${post.title}"></span></b>
-</div>
 <hr>
 
 <div class="all-body" id="body">
+    <div class="post-title">
+        <b><span th:text="${post.title}"></span></b>
+    </div>
     <form class="postForm">
         <div class="post-info">
             <div class="rightBtn">
@@ -149,6 +150,9 @@
                 </button>
                 <button type="button" class="btn btn-dark" th:onclick="deleteRequest()">삭제</button>
                 <button type="button" class="btn btn-dark" onClick="location.href='/'">목록</button>
+
+                <br/>
+
             </div>
         </div>
 
