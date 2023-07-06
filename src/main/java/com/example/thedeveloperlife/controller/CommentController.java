@@ -26,7 +26,8 @@ public class CommentController {
     //    return "redirect:/api/post-page/"+id;
     //}
     @GetMapping("/post/comment/{id}")
-    public List<CommentResponseDto> lookupPost(@PathVariable Long id) {
+    @ResponseBody
+    public List<CommentResponseDto> lookupPost(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.getComments(id);
     }
 

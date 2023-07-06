@@ -122,50 +122,42 @@
     </style>
 
     <script th:inline="javascript">
+        const host = 'http://' + window.location.host;
         let postId = [[${post.id}]]
         let username = [[${user}]];
         let commentList = [[${commentList}]];
 
 
         $(document).ready(function () {
-            showPage();
+            $('.dropdown-toggle').on('click', function() {
+                $(this).siblings('.dropdown-menu').toggle();
+            });
+
+            getComments();
             setUserType();
         });
 
-        function showPage() {
-            getComments();
-        }
-
         function getComments() {
             $('#comment-list').empty();
-            for (const comment of commentList) {
-                let commentId = comment['id'];
-                let commentContent = comment['content'];
-                let createdAt = comment['createdAt'];
-                let modifiedAt = comment['modifiedAt'];
-                let user_id = comment['userName'];
+            if (commentList === null) {
+                return;
+            } else {
+                for (const comment of commentList) {
+                    let commentId = comment['id'];
+                    let commentContent = comment['content'];
+                    let createdAt = comment['createdAt'];
+                    let modifiedAt = comment['modifiedAt'];
+                    let user_id = comment['userName'];
 
-                setHtml(commentContent, createdAt, modifiedAt, user_id);
+                    setHtml(commentContent, createdAt, modifiedAt, user_id);
+                }
             }
         }
 
         function setHtml(commentContent, createdAt, modifiedAt, user_id) {
-            let commentDate = new Date(createdAt).toDateString()  + " " + new Date(createdAt).toLocaleTimeString();
-            if (modifiedAt > createdAt) {
-                console.log('수정날짜가 더 큼')
-                commentDate = new Date(modifiedAt).toDateString() + " " + new Date(modifiedAt).toLocaleTimeString();
-            }
-            let html =
-/*                `<div class="comment">
-                    <div class="author">${user_id}</div>
-                    <div class="timestamp"> ${commentDate}</div>
-                    <div class="content">${commentContent} </div>
-                    <div class="actions">
-                        <button class="btn btn-sm btn-danger delete-comment-btn btn-dark">삭제</button>
-                        <button class="btn btn-sm btn-primary edit-comment-btn btn-dark">수정</button>
-                    </div>
-                </div>`;*/
-            `<div class="comment">
+            let commentDate = new Date(modifiedAt).toDateString() + " " + new Date(modifiedAt).toLocaleTimeString();
+
+            let html = `<div class="comment">
                     <div class="comment-header">
                         <div class="row">
                             <div class="col">
@@ -192,8 +184,6 @@
             $('#comment-list').prepend(html);
         }
 
-        const host = 'http://' + window.location.host;
-
         function writePost() {
             const content = document.querySelector("#commentContent").value;
 
@@ -208,11 +198,11 @@
                 data: JSON.stringify(data),
                 success: function (response) {
                     alert("댓글 등록 성공");
-                    window.location.href = host + '/api/post/comment/' + postId;
+                    window.location.reload()
                 }, error: function (req, status, error) {
                     alert("댓글 등록 실패");
                 }
-            })
+            });
         }
 
         function deletePost() {
@@ -244,12 +234,6 @@
                 $('.welcome-msg').text(username + '님 환영합니다.')
             }
         }
-
-        $(document).ready(function() {
-            $('.dropdown-toggle').on('click', function() {
-                $(this).siblings('.dropdown-menu').toggle();
-            });
-        });
 
         function logout() {
             // 토큰 삭제
@@ -317,7 +301,7 @@
         <br/><br/><br/>
     </form>
 
-    <form class="commentForm">
+    <div class="commentForm">
         <hr>
         <div class="comments">
             <div class="input-group-lg">
@@ -356,7 +340,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 </body>
 </html>
