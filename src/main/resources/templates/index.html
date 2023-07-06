@@ -77,6 +77,14 @@
         .inactive {
             display: none;
         }
+        .category {
+            text-justify: auto;
+            width: 10%;
+        }
+
+        #post-cards {
+            width: 90%;
+        }
     </style>
     <script>
         $(document).ready(function () {
@@ -150,8 +158,6 @@
                 $('button.signup').removeClass('inactive');
                 $('button.logout').addClass('inactive');
                 $('button.mypage').addClass('inactive');
-
-                //$('.welcome-msg').text("Guest님, 환영합니다.");
             } else {
                 $('button.login').addClass('inactive');
                 $('button.signup').addClass('inactive');
