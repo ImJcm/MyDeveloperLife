@@ -66,7 +66,11 @@ public class PostController {
                           Model model,
                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         PostResponseDto responseDto = postService.lookupPost(id);
-        model.addAttribute("user",userDetails.getUser().getName());
+        if(userDetails != null) {
+            model.addAttribute("user", userDetails.getUser().getName());
+        }else {
+            model.addAttribute("user", "Guest");
+        }
         model.addAttribute("post", responseDto);
         return "postDetail"; // postDetail.html view
     }
