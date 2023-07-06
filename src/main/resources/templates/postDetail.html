@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="/js/basic.js"></script>
     <meta charset="UTF-8">
     <title>게시글 상세 페이지</title>
 
@@ -89,13 +90,17 @@
             margin-left: 5px;
         }
 
+        .inactive {
+            display : none;
+        }
+
     </style>
 
-    <script>
+    <script th:inline="javascript">
         let postId = [[${post.id}]]
 
         $(document).ready(function () {
-
+            setUserType();
         });
 
         function deleteRequest() {
@@ -112,20 +117,36 @@
             })
         }
 
+        function setUserType() {
+            let username = [[${user}]];
+            if(username === 'Guest') {
+                $('button.login').removeClass('inactive');
+                $('button.logout').addClass('inactive');
+                $('button.signup').removeClass('inactive');
+
+                $('.welcome-msg').text('Guest님 환영합니다.');
+            } else {
+                $('button.login').addClass('inactive');
+                $('button.logout').removeClass('inactive');
+                $('button.signup').removeClass('inactive');
+
+                $('.welcome-msg').text(username + '님 환영합니다.')
+            }
+        }
     </script>
 
 </head>
 <body>
 
 <div class="leftBtn">
-    <input type="button" class="btn btn-dark" value="Back" onClick="location.href='/'"/>
-
+    <input type="button" class="btn btn-dark" value="Back" onclick="location.href='/'"/>
 </div>
 
 <div class="rightBtn">
-    <span class="welcome-msg" th:text="${user} == 'Guest' ? '' : ${user}+'님, 환영합니다.'"></span>  <br/>
-    <button onClick="location.href='/api/user/login-page'" class="btn btn-dark"> Log In</button>
-    <button onClick="location.href='/api/user/signup'" class="btn btn-dark"> Sign Up</button>
+    <span class="welcome-msg"></span>  <br/>
+    <button onclick="location.href='/api/user/login-page'" class="btn btn-dark login"> Log In</button>
+    <button onclick="logout()" class="btn btn-dark logout"> Log Out</button>
+    <button onclick="location.href='/api/user/signup'" class="btn btn-dark signup"> Sign Up</button>
 </div>
 <br/><br/>
 
@@ -149,10 +170,7 @@
                         th:onclick="|location.href='@{/api/post/modify(id=${post.id})}'|">수정
                 </button>
                 <button type="button" class="btn btn-dark" th:onclick="deleteRequest()">삭제</button>
-                <button type="button" class="btn btn-dark" onClick="location.href='/'">목록</button>
-
-                <br/>
-
+                <button type="button" class="btn btn-dark" onclick="location.href='/'">목록</button>
             </div>
         </div>
 
