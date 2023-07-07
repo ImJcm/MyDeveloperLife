@@ -25,14 +25,19 @@ https://www.notion.so/cm97/f4e1117c1a934412bf41fd1268e1b7b5?pvs=4
 ### comment ###
 ![comment](https://user-images.githubusercontent.com/51190093/250495738-e9028f60-4444-4407-ad30-54038c750405.PNG)
 
+---
+
 ## API 설계 ##
-![api1](https://user-images.githubusercontent.com/51190093/251503221-9a6efe16-18b4-4867-9a53-ce4b66f7537f.PNG)
-![api2](https://user-images.githubusercontent.com/51190093/251503225-83c46ff5-55c8-4ba6-ba4f-d336b0f774e6.PNG)
-![api3](https://user-images.githubusercontent.com/51190093/251503235-f37ba383-a617-4d9c-9775-b80d990e63fc.PNG)
-![api4](https://user-images.githubusercontent.com/51190093/251503257-0c5236b3-049d-4931-98ca-5f21ef27d322.PNG)
-![api5](https://user-images.githubusercontent.com/51190093/251503270-bceabe3d-4658-43ae-aa24-52c86634526d.PNG)
-![api6](https://user-images.githubusercontent.com/51190093/251503284-00a0a55d-f6f5-42b2-b2e9-c009a03bc0b6.PNG)
-![api7](https://user-images.githubusercontent.com/51190093/251503297-c6623f6f-e249-44f1-b501-467cbbc704aa.PNG)
+![api1](https://user-images.githubusercontent.com/51190093/251634570-d1ad57ff-e266-44ef-845e-a1505a47b1da.PNG)
+![api2](https://user-images.githubusercontent.com/51190093/251634568-1c6ddbb5-b856-45e7-b0dc-ff7ce4caf7c0.PNG)
+![api3](https://user-images.githubusercontent.com/51190093/251634566-7896b232-7b8b-4010-a5fc-7dbdad89d068.PNG)
+![api4](https://user-images.githubusercontent.com/51190093/251634565-7ef219bf-3ef7-43db-9012-f85b287203e2.PNG)
+![api5](https://user-images.githubusercontent.com/51190093/251635124-5c4270c4-1f54-4fab-a7c1-2a6d1f41ad83.PNG)
+![api6](https://user-images.githubusercontent.com/51190093/251634563-84e82d1d-b7be-4deb-a838-d101e68a21d2.PNG)
+![api7](https://user-images.githubusercontent.com/51190093/251634562-89ed27b6-b623-46c5-a921-e79ca9cdc4ba.PNG)
+![api8](https://user-images.githubusercontent.com/51190093/251634557-31c37d93-1feb-4dc4-b238-c7b7418f3f4f.PNG)
+
+---
 
 ## 최종프로젝트 결과화면 ##
 - 회원가입 페이지
