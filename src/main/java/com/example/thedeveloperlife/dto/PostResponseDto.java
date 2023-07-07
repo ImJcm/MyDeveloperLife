@@ -3,12 +3,14 @@ package com.example.thedeveloperlife.dto;
 import com.example.thedeveloperlife.entity.Comment;
 import com.example.thedeveloperlife.entity.Post;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class PostResponseDto {
     private Long id;
     private String title;
