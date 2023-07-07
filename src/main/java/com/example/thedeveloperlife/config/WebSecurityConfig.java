@@ -72,6 +72,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/posts/**").permitAll()  //전체 게시글 조회는 누구나 허용
                         .requestMatchers("/api/post-page/**").permitAll() //상세 게시글 조회는 누구나 허용 - html 맵핑
                         .requestMatchers("/api/post/{id}").permitAll() //상세 게시글 조회는 누구나 허용 - responseBody 있는 url
+
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 

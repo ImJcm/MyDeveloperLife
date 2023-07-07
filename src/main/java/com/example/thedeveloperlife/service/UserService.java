@@ -86,6 +86,7 @@ public class UserService {
         log.info(inputName + "님이 로그인에 성공하였습니다");
     }
 
+    // 프로필 수정
     @Transactional
     public ResponseEntity<ApiResponseDto> updateUser(Long id, UpdateRequestDto requestDto) {
         // DB 에서 해당 유저 가져오기
