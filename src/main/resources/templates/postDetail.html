@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="/static/js/bootstrap.bundle.min.js"/>
+    <script src="/static/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
@@ -149,12 +151,12 @@
                     let modifiedAt = comment['modifiedAt'];
                     let user_id = comment['userName'];
 
-                    setHtml(commentContent, createdAt, modifiedAt, user_id);
+                    setHtml(commentId,commentContent, createdAt, modifiedAt, user_id);
                 }
             }
         }
 
-        function setHtml(commentContent, createdAt, modifiedAt, user_id) {
+        function setHtml(commentId,commentContent, createdAt, modifiedAt, user_id) {
             let commentDate = new Date(modifiedAt).toDateString() + " " + new Date(modifiedAt).toLocaleTimeString();
 
             let html = `<div class="comment">
@@ -164,16 +166,13 @@
                                 <div class="author">${user_id}</div>
                             </div>
                             <div class="col-auto">
-                                <div class="actions">
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="commentActionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            더보기
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="commentActionDropdown">
-                                            <a class="dropdown-item edit-comment-btn btn-dark" href="">수정</a>
-                                            <a class="dropdown-item delete-comment-btn btn-dark" href="#">삭제</a>
-                                        </div>
-                                    </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="commentActionDropdown-${commentId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        더보기
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="commentActionDropdown-${commentId}">
+                                        <li><a class="dropdown-item edit-comment-btn" href="#">수정</a></li>
+                                        <li><a class="dropdown-item delete-comment-btn" href="#">삭제</a></li>
                                 </div>
                             </div>
                         </div>
@@ -286,8 +285,8 @@
         <br/><br/>
         <div class="dateAuth">
             <b><span class="author">작성자</span></b> : <span
-                th:text="${post.category_id == 7 ? '익명' : post.userName}"></span> </span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+                th:text="${post.userName}"></span>
+            </span>
             <b><span class="date">게시일</span></b> : <span
                 th:text="${#temporals.format(post.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"> </span>
             <br/><br/>
@@ -314,7 +313,7 @@
             <br/><br/>
 
             <div id="comment-list">
-                <div class="comment">
+                <!--<div class="comment">
                     <div class="comment-header">
                         <div class="row">
                             <div class="col">
@@ -337,7 +336,7 @@
                         <div class="timestamp">어쩌구저쩌구 날</div>
                         <div class="content">댓글 입력하숑.</div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

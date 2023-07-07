@@ -54,7 +54,14 @@ public class PostService {
 
     public PostResponseDto lookupPost(Long id) {
         Post post = findPost(id);
-        return new PostResponseDto(post);
+
+        PostResponseDto newpostResponseDto = new PostResponseDto(post);
+
+        if(newpostResponseDto.getCategory_id() == 7) {
+            newpostResponseDto.setUserName("익명");
+        }
+
+        return newpostResponseDto;
     }
 
     private Post findPost(Long id) {
