@@ -81,13 +81,15 @@
 | 게시글 등록 페이지<br> (권한 o = 로그인 o) |    ![post_c2](https://user-images.githubusercontent.com/51190093/251506287-08c36ff9-bbe6-45c2-8550-593ce70b826e.png)     |
 |        게시글 등록 시 결과페이지         |![post_c3](https://user-images.githubusercontent.com/51190093/251506283-e9361cd8-7d10-407f-b104-44bfcfbca4c1.png)|
 |     게시글 조회 페이지<br>(카테고리1)     |![post_r1](https://user-images.githubusercontent.com/51190093/251506278-17ca4232-c81c-4151-bd08-3092630c1a2e.png)|
-| 게시글 조회 페이지<br>(카테고리2)|![post_r2](https://user-images.githubusercontent.com/51190093/251506272-1eb7c9bf-300d-4cac-b148-8f016acd96bc.png)|
-| 게시글 수정 페이지 |![post_u1](https://user-images.githubusercontent.com/51190093/251506265-58171900-be88-4ad5-9631-a8c47fc89600.png)|
-| 게시글 수정 결과 페이지|![post_u2](https://user-images.githubusercontent.com/51190093/251506262-d521d735-9abb-4ae6-b279-bfbeb37a449b.png)|
-| 게시글 삭제 페이지|![post_d](https://user-images.githubusercontent.com/51190093/251506260-73778ae4-9a41-4081-8834-df4c6d339b23.png)|
-|- 모든 게시글 조회 = 뉴스 피드 페이지|![all_post_r](https://user-images.githubusercontent.com/51190093/251506256-15a59827-9879-4f92-b555-14b0a5936e18.png)|
-| 댓글 생성 페이지|![comment_c1](https://user-images.githubusercontent.com/51190093/251506252-56d0505a-4bb6-49e8-9e3a-fb95ae59a5fd.png)|
-| 댓글 생성 결과 페이지|![comment_c2](https://user-images.githubusercontent.com/51190093/251506247-8fd207f8-7b65-40fb-bb32-c4083b663192.png)|
-| 댓글 조회 페이지|![comment_r1](https://user-images.githubusercontent.com/51190093/251506240-05b45b9d-871e-4f19-8c68-13a9401e109d.png)|
-| 댓글 수정 기능(PostMan활용)|![comment_update](https://user-images.githubusercontent.com/51190093/251506233-1f84fe48-61f7-4c0b-a45b-9077995ec74d.png)|
-| 댓글 삭제 (PostMan활용)|![comment_delete](https://user-images.githubusercontent.com/51190093/251506229-a7e0b6dc-2e1e-4d0a-aa1f-f291e1cc6d07.png)|
+|     게시글 조회 페이지<br>(카테고리2)     |![post_r2](https://user-images.githubusercontent.com/51190093/251506272-1eb7c9bf-300d-4cac-b148-8f016acd96bc.png)|
+|          게시글 수정 페이지           |![post_u1](https://user-images.githubusercontent.com/51190093/251506265-58171900-be88-4ad5-9631-a8c47fc89600.png)|
+|         게시글 수정 결과 페이지         |![post_u2](https://user-images.githubusercontent.com/51190093/251506262-d521d735-9abb-4ae6-b279-bfbeb37a449b.png)|
+|          게시글 삭제 페이지           |![post_d](https://user-images.githubusercontent.com/51190093/251506260-73778ae4-9a41-4081-8834-df4c6d339b23.png)|
+|    - 모든 게시글 조회 = 뉴스 피드 페이지    |![all_post_r](https://user-images.githubusercontent.com/51190093/251506256-15a59827-9879-4f92-b555-14b0a5936e18.png)|
+|           댓글 생성 페이지           |![comment_c1](https://user-images.githubusercontent.com/51190093/251506252-56d0505a-4bb6-49e8-9e3a-fb95ae59a5fd.png)|
+|         댓글 생성 결과 페이지          |![comment_c2](https://user-images.githubusercontent.com/51190093/251506247-8fd207f8-7b65-40fb-bb32-c4083b663192.png)|
+|           댓글 조회 페이지           |![comment_r1](https://user-images.githubusercontent.com/51190093/251506240-05b45b9d-871e-4f19-8c68-13a9401e109d.png)|
+|         댓글 수정 기능_수정중          |![comment_update](https://user-images.githubusercontent.com/51190093/252267174-1c9ccd27-edc9-437a-89c3-a940f8601917.PNG)|
+|         댓글 수정 기능_수정결과         |![comment_update](https://user-images.githubusercontent.com/51190093/252267170-12f32426-444d-4a46-8a99-128ba6320ee2.PNG)|
+|           댓글 삭제_삭제중           |![comment_delete](https://user-images.githubusercontent.com/51190093/252267167-2517ef34-b945-4a12-abf3-94bcdd2119c8.PNG)|
+|          댓글 삭제_삭제결과           |![comment_delete](https://user-images.githubusercontent.com/51190093/252267159-85f180a8-30c5-49ab-9b98-3b85fe0819d9.PNG)|
