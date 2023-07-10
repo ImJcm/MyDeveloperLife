@@ -5,15 +5,30 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="/static/js/bootstrap.bundle.min.js"/>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <!-- 최선 버전 로드 시, container 아니여도 작동함. -> 이유는 흠... -->
+    <!-- Jquery CDN 로드 : 항상 최신 버전 사용 -->
+    <!--<script src="https://code.jquery.com/jquery-latest.min.js"></script>-->
+
+    <!-- 부트스트랩 CDN 로드 : 항상 최신 버전 사용 : maxcdn -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.bundle.min.js"></script>&ndash;&gt;-->
+
+    <!-- 부트스트랩 4.x 에서는 class = "container"가 아니여도 작동 -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>-->
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">-->
+
+    <!-- 부트스트랩 5.x 에서는 container 클래스 필요 - bootstrap 페이지 요소를 사용할 때 필수요소 -->
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>-->
+
+    <!--<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
     <meta charset="UTF-8">
     <title>게시글 상세 페이지</title>
 
@@ -101,6 +116,7 @@
         }
 
         .comment {
+            height:auto;
             background-color: #f1f1f1;
             padding: 10px;
             border-radius: 5px;
@@ -121,6 +137,22 @@
             margin-top: 5px;
         }
 
+        .comment .form-floating {
+            display : flex;
+            flex-direction: row;
+
+        }
+
+        .comment .form-floating button {
+            height:auto;
+            margin:5px;
+        }
+
+        .comment .form-floating textarea {
+            height: 70px;
+            border-radius: 10px;
+        }
+
     </style>
 
     <script th:inline="javascript">
@@ -131,9 +163,9 @@
 
 
         $(document).ready(function () {
-            $('.dropdown-toggle').on('click', function() {
-                $(this).siblings('.dropdown-menu').toggle();
-            });
+            // $('.dropdown-toggle').on('click', function() {
+            //     $(this).siblings('.dropdown-menu').toggle();
+            // });
 
             getComments();
             setUserType();
@@ -159,27 +191,32 @@
         function setHtml(commentId,commentContent, createdAt, modifiedAt, user_id) {
             let commentDate = new Date(modifiedAt).toDateString() + " " + new Date(modifiedAt).toLocaleTimeString();
 
-            let html = `<div class="comment">
-                    <div class="comment-header">
-                        <div class="row">
-                            <div class="col">
-                                <div class="author">${user_id}</div>
-                            </div>
-                            <div class="col-auto">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="commentActionDropdown-${commentId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        더보기
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="commentActionDropdown-${commentId}">
-                                        <li><a class="dropdown-item edit-comment-btn" href="#">수정</a></li>
-                                        <li><a class="dropdown-item delete-comment-btn" href="#">삭제</a></li>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timestamp">${commentDate}</div>
-                        <div class="content">${commentContent} </div>
+            let html = `<div class="container comment">
+                <div class="row">
+                    <div class="col">
+                        <div class="author">${user_id}</div>
                     </div>
-                </div>`;
+                    <div class="col-auto">
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="commentAction" data-bs-toggle="dropdown" aria-expanded="false">
+                            더보기
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="commentAction">
+                            <li><a class="dropdown-item" onclick="modifyComment(${commentId})">수정</a></li>
+                            <li><a class="dropdown-item" onclick="deleteComment(${commentId})">삭제</a></li>
+                          </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="timestamp">${commentDate}</div>
+                <div class="content" id="content-${commentId}">${commentContent} </div>
+                <div class="inactive" id="form-floating-${commentId}">
+                  <textarea class="form-control" id="floatingTextarea-${commentId}">${commentContent}</textarea>
+                  <label for="floatingTextarea2">Comments</label>
+                  <button class="btn btn-secondary col-1" type="button" onclick="submitModify(${commentId})">수정하기</button>
+                </div>
+
+            </div>`;
             $('#comment-list').prepend(html);
         }
 
@@ -218,6 +255,71 @@
             })
         }
 
+        function modifyComment(commentId) {
+            showModifyFormat(commentId);
+        }
+
+        function showModifyFormat(commentId) {
+            if($('#form-floating-'+commentId).css('display') == "none") {
+                //$('#form-floating-'+commentId).show();
+                //$('#content-'+commentId).hide();
+                $('#form-floating-'+commentId).removeClass('inactive');
+                $('#form-floating-'+commentId).addClass('form-floating');
+                $('#content-'+commentId).addClass('inactive');
+            } else {
+                //$('#form-floating-' + commentId).hide();
+                //$('#content-'+commentId).show();
+                $('#form-floating-'+commentId).addClass('inactive');
+                $('#form-floating-'+commentId).removeClass('form-floating');
+                $('#content-'+commentId).removeClass('inactive');
+            }
+        }
+
+        function submitModify(commentId) {
+            //const content = document.querySelector("#commentContent").value;
+            let content = $('#floatingTextarea-' + commentId).val();
+
+            let data = {
+                'content' : content
+            }
+
+            if(!isValidContent(content)) {
+                return;
+            }
+
+            $.ajax({
+                type: 'PUT',
+                url: `/api/post/comment/${commentId}`,
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    alert("댓글 수정 성공")
+                    window.location.reload();
+                }, error(res, status, error) {
+                    alert("댓글 수정 실패")
+                    window.location.reload();
+                }
+
+            });
+
+        }
+
+        function deleteComment(commentId) {
+            $.ajax({
+                type: 'DELETE',
+                url: `/api/post/comment/${commentId}`,
+                success: function (response) {
+                    //alert("댓글 삭제 성공")
+                    alert(response['message'])
+                    window.location.reload();
+                }, error(res, status, error) {
+                    //alert("댓글 삭제 실패")
+                    alert(res['responseJSON']['message'])
+                    window.location.reload();
+                }
+            })
+        }
+
         function setUserType() {
             if(username === 'Guest') {
                 $('button.login').removeClass('inactive');
@@ -238,6 +340,20 @@
             // 토큰 삭제
             Cookies.remove('Authorization', {path: '/'});
             window.location.href = host;
+        }
+
+        function isValidContent(content) {
+            if(content == '') {
+                alert('내용을 입력해주세요.')
+                return false;
+            }
+
+            if(content.trim().length > 200) {
+                alert('공백 포함 200자 이하로 입력해주세요.')
+                return false;
+            }
+
+            return true;
         }
 
     </script>
@@ -313,7 +429,7 @@
             <br/><br/>
 
             <div id="comment-list">
-                <!--<div class="comment">
+                <div class="container comment">
                     <div class="comment-header">
                         <div class="row">
                             <div class="col">
@@ -325,9 +441,9 @@
                                         <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="commentActionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             ...
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="commentActionDropdown">
-                                            <a class="dropdown-item edit-comment-btn btn-dark" href="#">수정</a>
-                                            <a class="dropdown-item delete-comment-btn btn-dark" href="#">삭제</a>
+                                        <div class="dropdown-menu" aria-labelledby="commentActionDropdown">
+                                            <a class="dropdown-item btn-dark" href="#">수정</a>
+                                            <a class="dropdown-item btn-dark" href="#">삭제</a>
                                         </div>
                                     </div>
                                 </div>
@@ -335,8 +451,13 @@
                         </div>
                         <div class="timestamp">어쩌구저쩌구 날</div>
                         <div class="content">댓글 입력하숑.</div>
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2">Comments</label>
+                            <button class="btn btn-secondary-sm">수정하기</button>
+                        </div>
                     </div>
-                </div>-->
+                </div>
             </div>
         </div>
     </div>

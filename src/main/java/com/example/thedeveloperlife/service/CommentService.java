@@ -3,9 +3,11 @@ package com.example.thedeveloperlife.service;
 import com.example.thedeveloperlife.dto.ApiResponseDto;
 import com.example.thedeveloperlife.dto.CommentRequestDto;
 import com.example.thedeveloperlife.dto.CommentResponseDto;
+import com.example.thedeveloperlife.entity.Category;
 import com.example.thedeveloperlife.entity.Comment;
 import com.example.thedeveloperlife.entity.Post;
 import com.example.thedeveloperlife.entity.User;
+import com.example.thedeveloperlife.repository.CategoryRepository;
 import com.example.thedeveloperlife.repository.CommentRepository;
 import com.example.thedeveloperlife.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -80,12 +82,13 @@ public class CommentService {
             return null;
         }
 
-        // 해당 댓글 작설자인지 판단
+        // 해당 댓글 작성자인지 판단
         Comment comment = checkComment.get();
         Long commentUserId = comment.getUser().getId();
         if(!commentUserId.equals(user.getId())){
             log.error("해당 댓글의 작성자가 아닙니다.");
-            return null;
+            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST.value(), "댓글 삭제 실패, 댓글 작성자가 아닙니다."));
+            //return null;
         }
 
         // 해당 댓글 삭제
@@ -98,8 +101,17 @@ public class CommentService {
         List<Comment> commentList = commentRepository.findAllByPostIdOrderByCreatedAt(postId);
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
-        for (Comment comment : commentList) {
-            commentResponseDtoList.add(new CommentResponseDto(comment));
+        //익명 게시판의 게시글이라면 댓글 또한 작성자를 "익명"으로 전환 필요
+        if(postRepository.findById(postId).get().getCategory().getId() == 7) {
+            for (Comment comment : commentList) {
+                CommentResponseDto newCommentResponseDto = new CommentResponseDto(comment);
+                newCommentResponseDto.setUserName("익명");
+                commentResponseDtoList.add(new CommentResponseDto(comment));
+            }
+        } else {
+            for (Comment comment : commentList) {
+                commentResponseDtoList.add(new CommentResponseDto(comment));
+            }
         }
         return commentResponseDtoList;
     }
