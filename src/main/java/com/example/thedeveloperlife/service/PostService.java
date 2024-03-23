@@ -27,7 +27,6 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
-    private final CommentRepository commentRepository;
 
     public PostResponseDto createPost(PostRequestDto requestDto, User user) {
 
@@ -48,10 +47,13 @@ public class PostService {
 
     // 전체 게시글 조회
     public List<PostResponseDto> getPosts() {
-        return postRepository.findAllByOrderByModifiedAtDesc().stream().map(PostResponseDto::new).toList();
+        return postRepository.findAllByOrderByModifiedAtDesc().stream()
+                .map(post -> lookupPost(post.getId()))
+                .toList();
     }
 
 
+    // 카테고리 7번 (익명 게시판)의 게시글이라면 작성자를 변경하여 PostResponseDto를 반환
     public PostResponseDto lookupPost(Long id) {
         Post post = findPost(id);
 
@@ -59,6 +61,7 @@ public class PostService {
 
         if(newpostResponseDto.getCategory_id() == 7) {
             newpostResponseDto.setUserName("익명");
+            newpostResponseDto.setUserNickName("익명");
         }
 
         return newpostResponseDto;
@@ -67,7 +70,6 @@ public class PostService {
     private Post findPost(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시물은 존재하지 않습니다."));
     }
-
 
     @Transactional
     public ResponseEntity<ApiResponseDto> updatePost(Long id, PostRequestDto postRequestDto, User user) {
@@ -107,7 +109,9 @@ public class PostService {
     public ResponseEntity<ApiResponseDto> getCategoryPosts(Long category_id) {
         List<Post> postList = postRepository.findAllByCategory_IdOrderByModifiedAtDesc(category_id);
 
-        List<PostResponseDto> newPostList = postList.stream().map(PostResponseDto::new).toList();
+        List<PostResponseDto> newPostList = postList.stream()
+                .map(post -> lookupPost(post.getId()))
+                .toList();
 
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"카테고리별 게시글 조회",newPostList));
     }
