@@ -120,6 +120,9 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시물은 존재하지 않습니다."));
     }
 
+    public User findUser(String userName) {
+        return userRepository.findByName(userName).orElseThrow(() -> new IllegalArgumentException("해당하는 ID를 갖는 계정이 존재하지 않습니다."));
+    }
 }
 
 
