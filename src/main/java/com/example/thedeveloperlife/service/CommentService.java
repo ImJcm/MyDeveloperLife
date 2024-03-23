@@ -106,6 +106,7 @@ public class CommentService {
             for (Comment comment : commentList) {
                 CommentResponseDto newCommentResponseDto = new CommentResponseDto(comment);
                 newCommentResponseDto.setUserName("익명");
+                newCommentResponseDto.setUserNickname("익명");
                 commentResponseDtoList.add(new CommentResponseDto(comment));
             }
         } else {
