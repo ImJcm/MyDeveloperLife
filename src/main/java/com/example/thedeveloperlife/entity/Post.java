@@ -26,12 +26,10 @@ public class Post extends Timestamped {
     @Column(nullable = false, length = 50000)
     private String content;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="category_id",nullable = false)
     private Category category;
